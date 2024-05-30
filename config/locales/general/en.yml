@@ -1,0 +1,10 @@
+en:
+  new: Register
+  edit: Edit
+  delete: Delete
+  search: Search
+  save: Save
+  sign_out: Sign Out
+  sign_in: Sign In
+  destroy_confirmation: Are you sure?
+

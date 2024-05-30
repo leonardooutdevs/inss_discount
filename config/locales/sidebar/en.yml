@@ -1,0 +1,7 @@
+en:
+  layouts:
+    application:
+      users:
+        title: Admins
+        index: Lista
+        new: Cadastrar

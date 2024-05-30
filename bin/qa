@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+echo "[Running] Rubocop..."
+bundle exec rubocop
+
+echo ""
+echo "[Running] Reek..."
+bundle exec reek
+
+echo ""
+echo "[Running] Rails brakeman..."
+bundle exec brakeman

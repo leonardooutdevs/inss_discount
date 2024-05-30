@@ -1,0 +1,67 @@
+require:
+  - rubocop-rspec
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - bin/**/*
+    - db/**/*
+    - log/**/*
+    - node_modules/**/*
+    - vendor/**/*
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
+    - db/**/*.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - spec/**/*.rb
+    - db/**/*.rb
+
+Style/StringLiterals:
+  Exclude:
+    - db/**/*.rb
+
+Style/WordArray:
+  Exclude:
+    - db/**/*.rb
+
+Style/NumericLiterals:
+  Exclude:
+    - db/**/*.rb
+
+Style/SingleLineMethods:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - db/**/*.rb
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: exception
+
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
+Lint/MissingSuper:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - db/**/*.rb
