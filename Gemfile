@@ -5,6 +5,7 @@ ruby '3.2.0'
 
 gem 'bootsnap', require: false
 gem 'bootstrap'
+gem 'bootstrap5-kaminari-views'
 gem 'devise'
 gem 'dotenv-rails'
 gem 'importmap-rails'
@@ -22,7 +23,6 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-gem 'bootstrap5-kaminari-views'
 
 group :development, :test do
   # Debug

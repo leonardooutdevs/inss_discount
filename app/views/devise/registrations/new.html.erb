@@ -1,0 +1,46 @@
+<main class="form-sign w-100 m-auto">
+  <%= simple_form_for(resource, as: resource_name, html: {'data-turbo' => "false"}, url: registration_path(resource_name)) do |f| %>
+    <%= logo %>
+
+    <div class="form-floating">
+      <%= f.email_field :email,
+                required: true,
+                autofocus: true,
+                input_html: { autocomplete: "email" },
+                class: "form-control #{validation_class(resource.errors['email'])}" %>
+      <%= f.label :email, class: "form-label", for: 'user[email]' %>
+      <div class="invalid-feedback">
+        <%= resource.errors['email'].join(', ') %>
+      </div>
+    </div>
+
+    <div class="form-floating">
+      <%= f.password_field :password,
+                           required: true,
+                           hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                           input_html: { autocomplete: "new-password" },
+                           class: "form-control #{validation_class(resource.errors['password'])}" %>
+      <%= f.label :password, class: "form-label" %>
+      <div class="invalid-feedback">
+        <%= resource.errors['password'].join(', ') %>
+      </div>
+    </div>
+
+    <div class="form-floating">
+      <%= f.password_field :password_confirmation,
+                           required: true,
+                           input_html: { autocomplete: "new-password" },
+                           class: "form-control confirmation #{validation_class(resource.errors['password_confirmation'])}" %>
+      <%= f.label :password_confirmation, class: "form-label" %>
+      <div class="invalid-feedback">
+        <%= resource.errors['password_confirmation'].join(', ') %>
+      </div>
+    </div>
+
+    <div class="mb-4 mt-4">
+      <%= f.submit t('.sign_up'), class: "w-100 btn btn-lg btn-primary" %>
+    </div>
+  <% end %>
+
+  <%= link_to t('.sign_in'), new_session_path(resource_name), class: "w-100 btn btn-lg btn-link" %><br />
+</main>

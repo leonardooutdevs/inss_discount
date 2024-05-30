@@ -1,0 +1,32 @@
+<%= t('.title') %>
+
+<%= search_form_for [@q], class: 'row', data: { 'turbo-stream' => true } do |f| %>
+  <div class="col-auto">
+    <%= f.label :email_cont, t('.email'), class: 'visually-hidden' %>
+    <%= f.search_field :email_cont, class: 'form-control'  %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit t('search'), class: 'btn btn-primary mb-3' %>
+  </div>
+<% end %>
+
+<br>
+
+<div class='row'>
+  <div class='col'>
+    <%= sort_link @q, :email, t('.email'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+    <%= t('.updated_at') %>
+  </div>
+  <div class='col'>
+  </div>
+</div>
+
+<hr class='col'>
+
+<%= turbo_stream_from 'users' %>
+<%= turbo_frame_tag 'users', class: 'list-striped' do %>
+  <%= render @users %>
+  <%= paginate @users, theme: 'bootstrap-5' %>
+<% end %>

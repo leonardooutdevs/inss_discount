@@ -25,7 +25,6 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 end
 
-
 RSpec::Matchers.define_negated_matcher :not_change, :change
 
 Shoulda::Matchers.configure do |config|
