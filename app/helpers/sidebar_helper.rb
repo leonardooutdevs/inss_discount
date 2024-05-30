@@ -1,7 +1,8 @@
 module SidebarHelper
   def links
     [
-      menus
+      menus,
+      address
     ]
   end
 
@@ -11,6 +12,18 @@ module SidebarHelper
       name: t('.users.title'),
       items: [
         { name: t('.users.index'), path: url_for([:users]) }
+      ]
+    }
+  end
+
+  def address
+    {
+      id: 'address',
+      name: t('.address.title'),
+      items: [
+        { name: t('.address.countries.title'), path: url_for([:countries]) },
+        { name: t('.address.states.title'), path: url_for([:states]) },
+        { name: t('.address.cities.title'), path: url_for([:cities]) }
       ]
     }
   end

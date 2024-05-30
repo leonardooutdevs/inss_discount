@@ -1,0 +1,25 @@
+<%= turbo_frame_tag dom_id(city) do  %>
+  <div class='row'>
+    <div class='col'>
+      <%= city.name %>
+    </div>
+    <div class='col'>
+      <%= city.state.name %>
+    </div>
+    <div class='col'>
+      <%= city.state.country.name %>
+    </div>
+    <div class='col'>
+      <%= l city.updated_at, format: :short %>
+    </div>
+    <div class='col'>
+      <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+        <%= link_to t('edit'),
+            url_for([:edit, city]),
+            class: 'btn btn btn-outline-primary',
+            method: :get, format: :turbostream,
+            data: { turbo: true } %>
+      </div>
+    </div>
+  </div>
+<% end %>

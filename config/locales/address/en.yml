@@ -1,0 +1,32 @@
+en:
+  cities:
+    index:
+      title: Cities
+      name: City
+      updated_at: Updated At
+      state:
+        name: State
+      country:
+        name: Country
+  states:
+    index:
+      title: States
+      name: State
+      updated_at: Updated At
+      country:
+        name: Country
+  countries:
+    index:
+      title: Countries
+      name: Country
+      updated_at: Updated At
+  layouts:
+    application:
+      address:
+        title: Address
+        countries:
+          title: Countries
+        states:
+          title: States
+        cities:
+          title: Cities

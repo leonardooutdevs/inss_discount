@@ -12,5 +12,10 @@ Rails.application.routes.draw do
 
   resources :users
 
+  # Address
+  resources :countries
+  resources :states
+  resources :cities
+
   root to: 'users#index'
 end
