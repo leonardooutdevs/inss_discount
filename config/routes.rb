@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     controllers: { sessions: 'users/sessions' }
   )
 
+  resources :users
+
   root to: 'users#index'
 end
