@@ -2,6 +2,7 @@ module SidebarHelper
   def links
     [
       menus,
+      proponents,
       address
     ]
   end
@@ -12,6 +13,16 @@ module SidebarHelper
       name: t('.users.title'),
       items: [
         { name: t('.users.index'), path: url_for([:users]) }
+      ]
+    }
+  end
+
+  def proponents
+    {
+      id: 'proponent',
+      name: t('.proponents.title'),
+      items: [
+        { name: t('.proponents.title'), path: url_for([:proponents]) }
       ]
     }
   end

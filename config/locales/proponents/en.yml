@@ -1,0 +1,10 @@
+en:
+  proponents:
+    index:
+      title: Proponents
+      name: Proponent
+      updated_at: Updated At
+  layouts:
+    application:
+      proponents:
+        title: Proponents

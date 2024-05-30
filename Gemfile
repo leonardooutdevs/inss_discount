@@ -41,6 +41,9 @@ group :development, :test do
 
   # RSpec
   gem 'rspec-rails'
+
+  # Utility
+  gem 'faker'
 end
 
 group :development do
@@ -51,7 +54,6 @@ end
 
 group :test do
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'rails-controller-testing'
   gem 'rspec-sidekiq'
   gem 'shoulda-matchers'

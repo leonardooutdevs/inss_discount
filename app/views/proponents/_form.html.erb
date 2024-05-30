@@ -1,0 +1,17 @@
+<%= turbo_frame_tag dom_id(proponent), target: "_top" do %>
+  <%= simple_form_for [proponent], html: { class: 'needs-validation', id: dom_id(proponent) }  do |f| %>
+    <div class='row'>
+      <div class='col-8'>
+        <%= f.label :name, t('.name'), class: 'visually-hidden' %>
+        <%= f.input :name, label: false %>
+      </div>
+      <div class='col'>
+        <%= f.submit t('save'), class: 'btn btn-sm btn-primary' %>
+        <%= link_to t('cancel'),
+            url_for([proponent]),
+            class: 'btn btn-link text-secondary',
+            data: { 'turbo-stream' => true } %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

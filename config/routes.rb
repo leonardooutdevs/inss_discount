@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   resources :users
 
+  resources :proponents
+
   # Address
   resources :countries
   resources :states
