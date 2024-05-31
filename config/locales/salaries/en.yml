@@ -18,5 +18,5 @@ en:
       success: 'Create successful'
   layouts:
     application:
-      proponents:
+      salaries:
         title: Salaries
