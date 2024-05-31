@@ -1,17 +1,85 @@
 <%= turbo_frame_tag dom_id(proponent), target: "_top" do %>
-  <%= simple_form_for [proponent], html: { class: 'needs-validation', id: dom_id(proponent) }  do |f| %>
-    <div class='row'>
-      <div class='col-8'>
-        <%= f.label :name, t('.name'), class: 'visually-hidden' %>
-        <%= f.input :name, label: false %>
-      </div>
-      <div class='col'>
-        <%= f.submit t('save'), class: 'btn btn-sm btn-primary' %>
-        <%= link_to t('cancel'),
-            url_for([proponent]),
-            class: 'btn btn-link text-secondary',
-            data: { 'turbo-stream' => true } %>
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <%= (proponent.new_record? ? 'Register' : "Editing - #{proponent.id}") %>
     </div>
-  <% end %>
+    <div class="card-body">
+      <%= simple_form_for [proponent], html: { class: 'needs-validation', id: dom_id(proponent) }  do |f| %>
+        <div class="row mb-3">
+          <%= f.label :name, t('.name'), class: 'col-sm-2 col-form-label' %>
+          <div class="col-sm-10">
+            <%= f.input :name, label: false %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <%= f.label :document, t('.document'), class: 'col-sm-2 col-form-label' %>
+          <div class="col-sm-10">
+            <%= f.input :document, label: false %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <%= f.label :birth_date, t('.birth_date'), class: 'col-sm-2 col-form-label' %>
+          <div class="col-sm-10">
+            <%= f.input :birth_date, label: false, start_year: 100.years.ago.year, end_year: Date.today.year %>
+          </div>
+        </div>
+        <div class="row mb-3">
+            <%= f.label :gross_salary, t('.gross_salary'), class: 'col-sm-2 col-form-label' %>
+            <div class="col-sm-10">
+              <div class="input-group" data-controller="calculations">
+                <%= f.input(
+                  :gross_salary,
+                  label: false,
+                  class: 'form-control',
+                  wrapper: false,
+                  input_html: { 'data-calculations-target': 'gross' }
+                ) %>
+                <button
+                  class='btn btn btn-outline-primary'
+                  type="button"
+                  data-action="click->calculations#calculate"
+                >
+                  <%= t('.calculate') %>
+                </button>
+                <span class="input-group-text">
+                  <%= t('.discount') %>:
+                </span>
+                <span class="input-group-text" data-calculations-target="discount">
+                  <% if proponent.discount.blank? %>
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  <% else %>
+                    <%= m proponent.discount %>
+                  <% end %>
+                </span>
+                <span class="input-group-text">
+                  <%= t('.net_salary') %>:
+                </span>
+                <span class="input-group-text" data-calculations-target="netSalary">
+                  <% if proponent.discount.blank? %>
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  <% else %>
+                    <%= m proponent.net_salary %>
+                  <% end %>
+                </span>
+              </div>
+            </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <div class="row">
+            <div class="col-sm-6 offset-sm-5">
+              <%= f.submit t('save'), class: 'btn btn-sm btn-primary' %>
+              <%= link_to t('cancel'),
+                  proponents_path,
+                  class: 'btn btn-link text-secondary',
+                  data: { turbo: false } %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 <% end %>

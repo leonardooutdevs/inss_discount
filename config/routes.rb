@@ -12,7 +12,9 @@ Rails.application.routes.draw do
 
   resources :users
 
-  resources :proponents
+  resources :proponents do
+    get 'calculate_discount', on: :collection
+  end
 
   # Address
   resources :countries

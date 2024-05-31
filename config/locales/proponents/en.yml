@@ -4,6 +4,21 @@ en:
       title: Proponents
       name: Proponent
       updated_at: Updated At
+      document: Document
+      gross_salary: Gross Salary
+      discount: Discount
+      birth_date: Birth Date
+      net_salary: Net Salary
+    form:
+      name: Name
+      gross_salary: Gross Salary
+      net_salary: Net Salary
+      discount: Discount
+      birth_date: Birth Date
+      document: Document
+      calculate: Calculate
+    update:
+      success: 'Update successful'
   layouts:
     application:
       proponents:

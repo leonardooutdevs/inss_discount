@@ -3,7 +3,6 @@ class CreateProponents < ActiveRecord::Migration[7.0]
     create_table :proponents, id: :uuid do |t|
       t.references :address, null: false, foreign_key: true, type: :uuid
       t.references :phone, null: false, foreign_key: true, type: :uuid
-      t.references :salary, null: false, foreign_key: true, type: :uuid
 
       t.decimal :gross_salary, null: false
       t.decimal :discount, null: false

@@ -4,7 +4,16 @@
       <%= proponent.name %>
     </div>
     <div class='col'>
-      <%= l proponent.updated_at, format: :short %>
+      <%= proponent.document %>
+    </div>
+    <div class='col'>
+      <%= m proponent.gross_salary %>
+    </div>
+    <div class='col'>
+      <%= m proponent.discount %>
+    </div>
+    <div class='col'>
+      <%= m proponent.net_salary %>
     </div>
     <div class='col'>
       <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
@@ -12,7 +21,7 @@
             url_for([:edit, proponent]),
             class: 'btn btn btn-outline-primary',
             method: :get, format: :turbostream,
-            data: { turbo: true } %>
+            data: { turbo: false } %>
       </div>
     </div>
   </div>

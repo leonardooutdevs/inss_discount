@@ -52,4 +52,56 @@ RSpec.describe 'Dashboard::Proponents' do
       it { expect { patch_update and proponent.reload }.not_to change(proponent, :attributes) }
     end
   end
+
+  describe 'POST /create' do
+    subject(:post_create) { post proponents_path, params: }
+
+    let(:params) { { proponent: proponent_attributes, format: :turbo_stream } }
+
+    let(:proponent_attributes) do
+      attributes_for(
+        :proponent,
+        gross_salary:,
+        address_id: create(:address).id,
+        phone_id: create(:phone).id
+      )
+    end
+
+    before { create(:salary, :all) }
+
+    shared_examples 'successful creation with discount' do
+      it_behaves_like 'a request'
+
+      it { expect { post_create }.to change(Proponent, :count).by(1) }
+
+      it 'is expected calculate correctly discount', :aggregate_failures do
+        post_create
+        proponent = Proponent.order(:created_at).last
+        expect(proponent.gross_salary).to eq(gross_salary)
+        expect(proponent.discount).to be_within(0.01).of(discount)
+        expect(proponent.net_salary).to be_within(0.01).of(gross_salary - discount)
+      end
+    end
+
+    context 'when gross_salary = 3000' do
+      let(:gross_salary) { 3_000 }
+      let(:discount) { 281.62 }
+
+      it_behaves_like 'successful creation with discount'
+    end
+
+    context 'when gross_salary = 6000' do
+      let(:gross_salary) { 6_000 }
+      let(:discount) { 698.95 }
+
+      it_behaves_like 'successful creation with discount'
+    end
+
+    context 'when validation fails' do
+      let(:proponent_attributes) { attributes_for(:proponent, name: '') }
+
+      it_behaves_like 'a request'
+      it { expect { post_create }.not_to change(Proponent, :count) }
+    end
+  end
 end

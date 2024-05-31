@@ -3,7 +3,20 @@ class Proponent < ApplicationRecord
 
   belongs_to :address
   belongs_to :phone
-  belongs_to :salary
 
-  validates :name, presence: true
+  validates(
+    :name,
+    :gross_salary,
+    :discount,
+    :net_salary,
+    :document,
+    :birth_date,
+    presence: true
+  )
+
+  validates :document, uniqueness: true, format: { with: /\A\d+\z/ }
+
+  before_validation :calculate_discount
+
+  def calculate_discount = Discount.call(self)
 end

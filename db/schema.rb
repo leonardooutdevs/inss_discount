@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_30_195511) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_31_123645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -54,7 +54,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_30_195511) do
   create_table "proponents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "address_id", null: false
     t.uuid "phone_id", null: false
-    t.uuid "salary_id", null: false
     t.decimal "gross_salary", null: false
     t.decimal "discount", null: false
     t.decimal "net_salary", null: false
@@ -66,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_30_195511) do
     t.index ["address_id"], name: "index_proponents_on_address_id"
     t.index ["document"], name: "index_proponents_on_document", unique: true
     t.index ["phone_id"], name: "index_proponents_on_phone_id"
-    t.index ["salary_id"], name: "index_proponents_on_salary_id"
+    t.check_constraint "document::text ~ '^\\d+$'::text", name: "check_numeric_document"
   end
 
   create_table "salaries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -107,6 +106,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_30_195511) do
   add_foreign_key "cities", "states"
   add_foreign_key "proponents", "addresses"
   add_foreign_key "proponents", "phones"
-  add_foreign_key "proponents", "salaries"
   add_foreign_key "states", "countries"
 end

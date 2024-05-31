@@ -10,16 +10,45 @@ class ProponentsController < ApplicationController
     render(turbo_stream: turbo_stream.send('update', proponent, partial: 'proponent', locals: { proponent: }))
   end
 
-  def edit
-    render(turbo_stream: turbo_stream.send('replace', proponent, partial: 'form', locals: { proponent: }))
+  def new
+    @proponent = Proponent.new
+  end
+
+  def edit; end
+
+  def create
+    @proponent = Proponent.new(permitted_params)
+
+    if proponent.save
+      return render(
+        turbo_stream: turbo_stream.send(
+          'replace', "proponents_#{current_user.id}",
+          partial: 'form', locals: { proponent: }
+        )
+      )
+    end
+
+    render(turbo_stream: turbo_stream.send('update', proponent, partial: 'form', locals: { proponent: }))
   end
 
   def update
     if proponent.update(permitted_params)
-      render(turbo_stream: turbo_stream.send('replace', proponent, partial: 'proponent', locals: { proponent: }))
+      redirect_to proponents_path, notice: t('.success')
     else
       render(turbo_stream: turbo_stream.send('replace', proponent, partial: 'form', locals: { proponent: }))
     end
+  end
+
+  def calculate_discount
+    render(
+      json: {
+        data: Proponent::Discount.call(
+          Proponent.new(
+            gross_salary: params[:gross_salary]
+          )
+        )
+      }
+    )
   end
 
   private
@@ -31,6 +60,13 @@ class ProponentsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:proponent).permit(:name)
+    params.require(:proponent).permit(
+      :gross_salary,
+      :name,
+      :document,
+      :birth_date,
+      :address_id,
+      :phone_id
+    )
   end
 end
