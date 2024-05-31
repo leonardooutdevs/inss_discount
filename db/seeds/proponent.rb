@@ -72,7 +72,7 @@ module Seeds
 
         ::Salary.actives.create(
           salary_range: 'De R$ 3.134,41 até R$ 6.101,06',
-          max_amount: 0,
+          max_amount: 999999999,
           min_amount: 3134.41,
           calculation_basis: 0.14
         )
