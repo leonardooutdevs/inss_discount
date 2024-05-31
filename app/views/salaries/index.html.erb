@@ -1,0 +1,38 @@
+<%= t('.title') %>
+
+<%= search_form_for [@q], class: 'row', data: { 'turbo-stream' => true } do |f| %>
+  <div class="col-auto">
+    <%= f.label :salary_range_cont, t('.salary_range'), class: 'visually-hidden' %>
+    <%= f.search_field :salary_range_cont, class: 'form-control'  %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit t('search'), class: 'btn btn-primary mb-3' %>
+  </div>
+<% end %>
+
+<br>
+
+<div class='row'>
+  <div class='col'>
+    <%= sort_link @q, :salary_range, t('.salary_range'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+    <%= sort_link @q, :max_amount, t('.max_amount'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+    <%= sort_link @q, :min_amount, t('.min_amount'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+    <%= sort_link @q, :calculation_basis, t('.calculation_basis'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+  </div>
+</div>
+
+<hr class='col'>
+
+<%= turbo_stream_from 'salaries' %>
+<%= turbo_frame_tag 'salaries', class: 'list-striped' do %>
+  <%= render @salaries %>
+  <%= paginate @salaries, theme: 'bootstrap-5' %>
+<% end %>

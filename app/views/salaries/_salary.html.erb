@@ -1,0 +1,25 @@
+<%= turbo_frame_tag dom_id(salary) do  %>
+  <div class='row'>
+    <div class='col'>
+      <%= salary.salary_range %>
+    </div>
+    <div class='col'>
+      <%= salary.max_amount %>
+    </div>
+    <div class='col'>
+      <%= salary.min_amount %>
+    </div>
+    <div class='col'>
+      <%= salary.calculation_basis %>
+    </div>
+    <div class='col'>
+      <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+        <%= link_to t('edit'),
+            url_for([:edit, salary]),
+            class: 'btn btn btn-outline-primary',
+            method: :get, format: :turbostream,
+            data: { turbo: true } %>
+      </div>
+    </div>
+  </div>
+<% end %>

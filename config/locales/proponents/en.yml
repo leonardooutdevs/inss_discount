@@ -19,6 +19,8 @@ en:
       calculate: Calculate
     update:
       success: 'Update successful'
+    create:
+      success: 'Create successful'
   layouts:
     application:
       proponents:

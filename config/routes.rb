@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :proponents do
     get 'calculate_discount', on: :collection
   end
+  resources :salaries
 
   # Address
   resources :countries

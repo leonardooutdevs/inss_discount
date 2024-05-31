@@ -1,0 +1,29 @@
+<%= turbo_frame_tag dom_id(salary), target: "_top" do %>
+  <%= simple_form_for [salary], html: { class: 'needs-validation', id: dom_id(salary) }  do |f| %>
+    <div class='row'>
+      <div class='col-auto'>
+        <%= f.label :salary_range, t('.salary_range'), class: 'visually-hidden' %>
+        <%= f.input :salary_range, label: false %>
+      </div>
+      <div class='col-auto'>
+        <%= f.label :max_amount, t('.max_amount'), class: 'visually-hidden' %>
+        <%= f.input :max_amount, label: false %>
+      </div>
+      <div class='col-auto'>
+        <%= f.label :min_amount, t('.min_amount'), class: 'visually-hidden' %>
+        <%= f.input :min_amount, label: false %>
+      </div>
+      <div class='col-auto'>
+        <%= f.label :calculation_basis, t('.calculation_basis'), class: 'visually-hidden' %>
+        <%= f.input :calculation_basis, label: false %>
+      </div>
+      <div class='col'>
+        <%= f.submit t('save'), class: 'btn btn-sm btn-primary' %>
+        <%= link_to t('cancel'),
+            url_for([salary]),
+            class: 'btn btn-link text-secondary',
+            data: { 'turbo-stream' => true } %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

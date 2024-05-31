@@ -1,0 +1,22 @@
+en:
+  salaries:
+    index:
+      title: Salaries
+      salary_range: Salary Range
+      max_amount: Max Amount
+      min_amount: Min Amount
+      calculation_basis: Calculation Basis
+      updated_at: Updated At
+    form:
+      salary_range: Salary Range
+      max_amount: Max Amount
+      min_amount: Min Amount
+      calculation_basis: Calculation Basis
+    update:
+      success: 'Update successful'
+    create:
+      success: 'Create successful'
+  layouts:
+    application:
+      proponents:
+        title: Salaries
