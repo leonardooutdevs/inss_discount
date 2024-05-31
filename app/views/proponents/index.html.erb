@@ -21,7 +21,7 @@
       <%= t('.document') %>
     </div>
     <div class='col'>
-      <%= t('.gross_salary') %>
+      <%= sort_link @q, :gross_salary, t('.gross_salary'), class: 'btn btn-sm btn-outline-secondary' %>
     </div>
     <div class='col'>
       <%= t('.discount') %>

@@ -42,7 +42,7 @@ RSpec.describe 'Dashboard::Proponents' do
     let(:proponent) { create(:proponent) }
     let(:params) { { proponent: attributes_for(:proponent), format: :turbo_stream } }
 
-    it_behaves_like 'a request'
+    it_behaves_like 'a request', :found
     it { expect { patch_update and proponent.reload }.to change(proponent, :attributes) }
 
     context 'when validation fails' do
@@ -69,8 +69,8 @@ RSpec.describe 'Dashboard::Proponents' do
 
     before { create(:salary, :all) }
 
-    shared_examples 'successful creation with discount' do
-      it_behaves_like 'a request'
+    shared_examples 'successful creation with discount' do |kind|
+      it_behaves_like 'a request', kind
 
       it { expect { post_create }.to change(Proponent, :count).by(1) }
 
@@ -87,14 +87,14 @@ RSpec.describe 'Dashboard::Proponents' do
       let(:gross_salary) { 3_000 }
       let(:discount) { 281.62 }
 
-      it_behaves_like 'successful creation with discount'
+      it_behaves_like 'successful creation with discount', :found
     end
 
     context 'when gross_salary = 6000' do
       let(:gross_salary) { 6_000 }
       let(:discount) { 698.95 }
 
-      it_behaves_like 'successful creation with discount'
+      it_behaves_like 'successful creation with discount', :found
     end
 
     context 'when validation fails' do

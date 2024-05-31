@@ -19,14 +19,7 @@ class ProponentsController < ApplicationController
   def create
     @proponent = Proponent.new(permitted_params)
 
-    if proponent.save
-      return render(
-        turbo_stream: turbo_stream.send(
-          'replace', "proponents_#{current_user.id}",
-          partial: 'form', locals: { proponent: }
-        )
-      )
-    end
+    return redirect_to proponents_path, notice: t('.success') if proponent.save
 
     render(turbo_stream: turbo_stream.send('update', proponent, partial: 'form', locals: { proponent: }))
   end
