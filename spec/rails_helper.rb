@@ -18,6 +18,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :view
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include MoneyHelper
 
   config.include Rails.application.routes.url_helpers
   config.use_transactional_fixtures = true

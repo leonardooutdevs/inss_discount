@@ -13,8 +13,9 @@ Rails.application.routes.draw do
   resources :users
 
   resources :proponents do
-    get 'calculate_discount', on: :collection
+    get 'calculate_discount', on: :collection, controller: 'proponents/calculate_discounts', action: :index
   end
+
   resources :salaries
 
   # Address

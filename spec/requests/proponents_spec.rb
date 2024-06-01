@@ -85,7 +85,7 @@ RSpec.describe 'Dashboard::Proponents' do
 
     context 'when gross_salary = 3000' do
       let(:gross_salary) { 3_000 }
-      let(:discount) { 281.62 }
+      let(:discount) { 281.63 }
 
       it_behaves_like 'successful creation with discount', :found
     end

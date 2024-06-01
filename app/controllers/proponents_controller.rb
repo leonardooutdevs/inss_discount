@@ -32,18 +32,6 @@ class ProponentsController < ApplicationController
     end
   end
 
-  def calculate_discount
-    render(
-      json: {
-        data: Proponent::Discount.call(
-          Proponent.new(
-            gross_salary: params[:gross_salary]
-          )
-        )
-      }
-    )
-  end
-
   private
 
   attr_reader :proponents, :proponent

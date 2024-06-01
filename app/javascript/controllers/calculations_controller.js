@@ -2,26 +2,33 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="calculations"
 export default class extends Controller {
-  static targets = ["gross", "discount", "netSalary"]
+  static targets = ["gross", "discount", "netSalary", "currentUser"]
 
   calculate() {
-    console.log(this.grossTarget.value)
-
     let gross = this.grossTarget.value;
+    let currentUserId = this.currentUserTarget.attributes['value'].value;
 
     fetch(`/proponents/calculate_discount?gross_salary=${gross}`)
-      .then(response => response.json())
-      .then(data => {
-        this.discountTarget.textContent = toCurrency(data['data'][0]);
-        this.netSalaryTarget.textContent = toCurrency(data['data'][1]);
-    });
+      .then(response => {
+        if (response.ok) {
+          document.querySelector(`turbo-frame[id='net_salary_for_1']`).innerHTML =
+            '<div class="spinner-border" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+            '</div>';
+          document.querySelector(`turbo-frame[id='discount_for_1']`).innerHTML =
+            '<div class="spinner-border" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+            '</div>';
+        } else {
+          document.querySelector(`turbo-frame[id='net_salary_for_${currentUserId}']`).innerHTML =
+            '<div class="spinner-grow text-danger" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+            '</div>';
+          document.querySelector(`turbo-frame[id='discount_for_${currentUserId}']`).innerHTML =
+            '<div class="spinner-grow text-danger" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+            '</div>';
+        }
+      });
   }
-}
-
-function toCurrency(value, options = { symbol: 'R$ ', decimalSeparator: ',', thousandsSeparator: '.' }){
-  let number = parseFloat(value).toFixed(2);
-  number = number.replace('.', options.decimalSeparator);
-  let parts = number.split(options.decimalSeparator);
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, options.thousandsSeparator);
-  return options.symbol + parts.join(options.decimalSeparator);
 }
