@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_31_123645) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -51,9 +51,31 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_123645) do
     t.index ["number"], name: "index_phones_on_number", unique: true
   end
 
-  create_table "proponents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "proponent_addresses", force: :cascade do |t|
+    t.uuid "proponent_id", null: false
     t.uuid "address_id", null: false
+    t.string "kind", default: "residential", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_proponent_addresses_on_address_id"
+    t.index ["proponent_id", "address_id"], name: "index_proponent_addresses_on_proponent_id_and_address_id", unique: true
+    t.index ["proponent_id"], name: "index_proponent_addresses_on_proponent_id"
+  end
+
+  create_table "proponent_phones", force: :cascade do |t|
+    t.uuid "proponent_id", null: false
     t.uuid "phone_id", null: false
+    t.string "kind", default: "residential", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_id"], name: "index_proponent_phones_on_phone_id"
+    t.index ["proponent_id", "phone_id"], name: "index_proponent_phones_on_proponent_id_and_phone_id", unique: true
+    t.index ["proponent_id"], name: "index_proponent_phones_on_proponent_id"
+  end
+
+  create_table "proponents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.decimal "gross_salary", null: false
     t.decimal "discount", null: false
     t.decimal "net_salary", null: false
@@ -62,9 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_123645) do
     t.date "birth_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_id"], name: "index_proponents_on_address_id"
     t.index ["document"], name: "index_proponents_on_document", unique: true
-    t.index ["phone_id"], name: "index_proponents_on_phone_id"
     t.check_constraint "document::text ~ '^\\d+$'::text", name: "check_numeric_document"
   end
 
@@ -104,7 +124,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_123645) do
 
   add_foreign_key "addresses", "cities"
   add_foreign_key "cities", "states"
-  add_foreign_key "proponents", "addresses"
-  add_foreign_key "proponents", "phones"
+  add_foreign_key "proponent_addresses", "addresses"
+  add_foreign_key "proponent_addresses", "proponents"
+  add_foreign_key "proponent_phones", "phones"
+  add_foreign_key "proponent_phones", "proponents"
   add_foreign_key "states", "countries"
 end

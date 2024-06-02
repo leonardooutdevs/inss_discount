@@ -6,7 +6,7 @@ class Proponent
 
     def initialize(proponent)
       @proponent = proponent
-      @salaries = Salary.actives.order(:min_amount)
+      @salaries = Salary.active.order(:min_amount)
       @discount = 0
       @net_salary = 0
     end
@@ -32,13 +32,32 @@ class Proponent
       salaries.each do |salary|
         break if gross_salary <= salary.min_amount
 
-        max_salary = [gross_salary, salary.max_amount].min
-        taxable_amount = max_salary - salary.min_amount
-
-        @discount += taxable_amount * salary.calculation_basis
+        @discount += Calculate.call(salary, gross_salary)
       end
 
       @net_salary = (gross_salary - discount).round(2)
+    end
+
+    class Calculate
+      def self.call(...) = new(...).call
+
+      def initialize(salary, gross_salary)
+        @salary = salary
+        @gross_salary = gross_salary
+      end
+
+      def call
+        max_salary = [gross_salary, max_amount].min
+        taxable_amount = max_salary - min_amount
+
+        taxable_amount * calculation_basis
+      end
+
+      private
+
+      attr_reader :salary, :gross_salary
+
+      delegate :min_amount, :max_amount, :calculation_basis, to: :salary
     end
   end
 end

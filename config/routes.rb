@@ -12,8 +12,12 @@ Rails.application.routes.draw do
 
   resources :users
 
+  get 'addresses/search', controller: 'addresses/search', action: :index
+
   resources :proponents do
-    get 'calculate_discount', on: :collection, controller: 'proponents/calculate_discounts', action: :index
+    collection do
+      get 'calculate_discount', controller: 'proponents/calculate_discounts', action: :index
+    end
   end
 
   resources :salaries

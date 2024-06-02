@@ -1,8 +1,17 @@
 class Proponent < ApplicationRecord
   paginates_per 5
 
-  belongs_to :address
-  belongs_to :phone
+  has_many :proponent_addresses, dependent: :destroy
+  has_many :addresses, through: :proponent_addresses
+
+  has_many :proponent_phones, dependent: :destroy
+  has_many :phones, through: :proponent_phones
+
+  accepts_nested_attributes_for :proponent_addresses, allow_destroy: true
+  accepts_nested_attributes_for :addresses, allow_destroy: true
+
+  accepts_nested_attributes_for :proponent_phones, allow_destroy: true
+  accepts_nested_attributes_for :phones, allow_destroy: true
 
   validates(
     :name,
@@ -16,7 +25,7 @@ class Proponent < ApplicationRecord
 
   validates :document, uniqueness: true, format: { with: /\A\d+\z/ }
 
-  before_validation :calculate_discount
+  before_validation :calculate_discount, if: :gross_salary_changed?
 
   def calculate_discount = Discount.call(self)
 end

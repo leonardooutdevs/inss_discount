@@ -61,9 +61,7 @@ RSpec.describe 'Dashboard::Proponents' do
     let(:proponent_attributes) do
       attributes_for(
         :proponent,
-        gross_salary:,
-        address_id: create(:address).id,
-        phone_id: create(:phone).id
+        gross_salary:
       )
     end
 

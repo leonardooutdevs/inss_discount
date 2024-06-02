@@ -1,4 +1,8 @@
 en:
+  address:
+    kinds:
+      residential: Residential
+      commercial: Commercial
   cities:
     index:
       title: Cities

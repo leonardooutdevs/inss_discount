@@ -6,6 +6,7 @@ ruby '3.2.0'
 gem 'bootsnap', require: false
 gem 'bootstrap'
 gem 'bootstrap5-kaminari-views'
+gem 'brazil-cep'
 gem 'devise'
 gem 'dotenv-rails'
 gem 'importmap-rails'

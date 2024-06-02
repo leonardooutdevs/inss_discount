@@ -1,0 +1,20 @@
+<div class="nested-fields">
+  <div class="row">
+    <div class="col-sm-3">
+      <%= f.hidden_field :_destroy %>
+      <%=
+        f.input(
+          :kind,
+          collection: address_kinds,
+          prompt: t('.kind')
+        )
+      %>
+    </div>
+    <%= f.simple_fields_for :address do |address| %>
+      <%= render 'address_fields', f: address %>
+    <% end %>
+    <div class="col-sm-2 mt-4 pt-1">
+      <%= link_to "Remover", '#', class: "remove_fields btn btn-outline-danger", data: { action: "click->fields#remove" } %>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,12 @@ class CitiesController < ApplicationController
   before_action :set_city, only: %i[show edit update]
 
   def index
-    @q = City.eager_load(state: :country).ransack(params[:q])
-    @cities = @q.result(distinct: true).page(params[:page])
+    @cities = fetch_cities.page(params[:page]).per(params[:per])
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @cities }
+    end
   end
 
   def show
@@ -24,7 +28,12 @@ class CitiesController < ApplicationController
 
   private
 
-  attr_reader :cities, :city
+  attr_reader :cities, :city, :q
+
+  def fetch_cities
+    @q = City.eager_load(state: :country).ransack(params[:q])
+    q.result(distinct: true)
+  end
 
   def set_city
     @city = City.find(params.require(:id))

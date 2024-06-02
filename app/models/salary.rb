@@ -1,8 +1,8 @@
 class Salary < ApplicationRecord
   enum status: {
-    actives: 'actives',
-    inactives: 'inactives'
+    active: 'active',
+    inactive: 'inactive'
   }
 
-  default_scope { actives }
+  default_scope { active }
 end

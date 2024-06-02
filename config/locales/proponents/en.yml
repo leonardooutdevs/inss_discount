@@ -17,6 +17,18 @@ en:
       birth_date: Birth Date
       document: Document
       calculate: Calculate
+      addresses:
+        title: Addresses
+        add: Add Addresses
+      phones:
+        add: Add Phones
+        title: Phones
+    address_fields:
+      cep: Zip Code
+      search: Search
+      fill_address: Fill Address Manually
+      city: Select City
+      state: Select State
     update:
       success: 'Update successful'
     create:

@@ -3,7 +3,7 @@ class SalariesController < ApplicationController
 
   def index
     @q = Salary.ransack(params[:q])
-    @salaries = @q.result(distinct: true).page(params[:page])
+    @salaries = q.result(distinct: true).page(params[:page])
   end
 
   def show
@@ -26,7 +26,7 @@ class SalariesController < ApplicationController
 
   private
 
-  attr_reader :salaries, :salary
+  attr_reader :salaries, :salary, :q
 
   def set_salary
     @salary = Salary.find(params.require(:id))

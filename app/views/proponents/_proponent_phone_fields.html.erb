@@ -1,0 +1,22 @@
+<div class="nested-fields">
+  <div class="row">
+    <%= f.hidden_field :_destroy %>
+    <div class="col-auto">
+      <%=
+        f.input(
+          :kind,
+          collection: phone_kinds,
+          prompt: t('.kind')
+        )
+      %>
+    </div>
+    <div class="col-auto">
+      <%= f.simple_fields_for :phone do |phone| %>
+        <%= phone.input :number %>
+      <% end %>
+    </div>
+    <div class="col-auto mt-4 pt-1">
+      <%= link_to "Remover", '#', class: "remove_fields btn btn-outline-danger", data: { action: "click->fields#remove" } %>
+    </div>
+  </div>
+</div>

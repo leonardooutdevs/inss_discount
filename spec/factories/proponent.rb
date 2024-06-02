@@ -1,8 +1,5 @@
 FactoryBot.define do
   factory :proponent do
-    address
-    phone
-
     name { Faker::Name.name }
     gross_salary { Faker::Number.decimal(l_digits: 4, r_digits: 2) }
     document { Faker::IdNumber.brazilian_citizen_number }

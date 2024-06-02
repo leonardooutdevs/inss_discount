@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @q = User.ransack(params[:q])
-    @users = @q.result(distinct: true).page(params[:page])
+    @users = q.result(distinct: true).page(params[:page])
   end
 
   def show
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
   private
 
-  attr_reader :users, :user
+  attr_reader :users, :user, :q
 
   def set_user
     @user = User.find(params.require(:id))

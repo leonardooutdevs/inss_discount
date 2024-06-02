@@ -17,18 +17,20 @@ module Proponents
 
     attr_reader :discount, :net_salary, :current_user
 
+    delegate :id, to: :current_user
+
     def update_discount
       Turbo::StreamsChannel.broadcast_update_to(
-        "proponents_form_for_#{current_user.id}",
-        target: "net_salary_for_#{current_user.id}",
+        "proponents_form_for_#{id}",
+        target: "net_salary_for_#{id}",
         content: m(net_salary)
       )
     end
 
     def update_net_salary
       Turbo::StreamsChannel.broadcast_update_to(
-        "proponents_form_for_#{current_user.id}",
-        target: "discount_for_#{current_user.id}",
+        "proponents_form_for_#{id}",
+        target: "discount_for_#{id}",
         content: m(discount)
       )
     end

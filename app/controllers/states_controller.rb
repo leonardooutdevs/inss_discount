@@ -3,7 +3,7 @@ class StatesController < ApplicationController
 
   def index
     @q = State.eager_load(:country).ransack(params[:q])
-    @states = @q.result(distinct: true).page(params[:page])
+    @states = q.result(distinct: true).page(params[:page])
   end
 
   def show
@@ -24,7 +24,7 @@ class StatesController < ApplicationController
 
   private
 
-  attr_reader :states, :state
+  attr_reader :states, :state, :q
 
   def set_state
     @state = State.find(params.require(:id))

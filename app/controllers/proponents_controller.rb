@@ -3,7 +3,7 @@ class ProponentsController < ApplicationController
 
   def index
     @q = Proponent.ransack(params[:q])
-    @proponents = @q.result(distinct: true).page(params[:page])
+    @proponents = q.result(distinct: true).page(params[:page])
   end
 
   def show
@@ -12,6 +12,8 @@ class ProponentsController < ApplicationController
 
   def new
     @proponent = Proponent.new
+    @proponent.proponent_addresses.build.build_address
+    @proponent.proponent_phones.build.build_phone
   end
 
   def edit; end
@@ -26,7 +28,7 @@ class ProponentsController < ApplicationController
 
   def update
     if proponent.update(permitted_params)
-      redirect_to proponents_path, notice: t('.success')
+      redirect_to edit_proponent_path(proponent), notice: t('.success')
     else
       render(turbo_stream: turbo_stream.send('replace', proponent, partial: 'form', locals: { proponent: }))
     end
@@ -34,7 +36,7 @@ class ProponentsController < ApplicationController
 
   private
 
-  attr_reader :proponents, :proponent
+  attr_reader :proponents, :proponent, :q
 
   def set_proponent
     @proponent = Proponent.find(params.require(:id))
@@ -42,12 +44,11 @@ class ProponentsController < ApplicationController
 
   def permitted_params
     params.require(:proponent).permit(
-      :gross_salary,
-      :name,
-      :document,
-      :birth_date,
-      :address_id,
-      :phone_id
+      :gross_salary, :name, :document, :birth_date, :address_id, :phone_id,
+      proponent_addresses_attributes: [
+        :id, :kind, :_destroy, { address_attributes: %i[id city_id address number complement neighborhood zip_code] }
+      ],
+      proponent_phones_attributes: [:id, :kind, :_destroy, { phone_attributes: %i[id number] }]
     )
   end
 end

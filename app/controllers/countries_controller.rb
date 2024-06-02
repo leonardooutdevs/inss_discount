@@ -3,7 +3,7 @@ class CountriesController < ApplicationController
 
   def index
     @q = Country.ransack(params[:q])
-    @countries = @q.result(distinct: true).page(params[:page])
+    @countries = q.result(distinct: true).page(params[:page])
   end
 
   def show
@@ -24,7 +24,7 @@ class CountriesController < ApplicationController
 
   private
 
-  attr_reader :countries, :country
+  attr_reader :countries, :country, :q
 
   def set_country
     @country = Country.find(params.require(:id))

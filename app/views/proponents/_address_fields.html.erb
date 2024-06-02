@@ -1,0 +1,58 @@
+<div class="col-sm-3">
+  <div class="mt-4 pt-1 input-group">
+    <%=
+      f.input(
+        :zip_code,
+        label: 'CEP',
+        class: 'form-control',
+        wrapper: false,
+        label: false,
+        placeholder: t('.cep'),
+        input_html: { 'data-address-target': 'zipcode' }
+      )
+    %>
+
+    <button data-action="click->address#search" type="button" class="btn btn-outline-secondary"><%= t('.search') %></button>
+  </div>
+</div>
+
+<div class="col-sm-3">
+  <%=
+    f.input(
+      :state_id,
+      collection: address_states,
+      prompt: t('.state'),
+      input_html: {
+        'data-action': 'change->address#searchCities',
+        'data-address-target': 'state'
+      }
+    )
+  %>
+</div>
+<div class="col-sm-3">
+  <%=
+    f.input(
+      :city_id,
+      collection: address_cities(f.object.state_id),
+      prompt: t('.city'),
+      input_html: { 'data-address-target': 'city' }
+    )
+  %>
+</div>
+<div class="col-sm-3">
+  <%= f.input :address, label: 'Endereço', class: 'col-sm-10',
+               input_html: { 'data-address-target': 'address' } %>
+</div>
+<div class="col-sm-2">
+  <%= f.input :number, label: 'Número', class: 'col-sm-2',
+               input_html: { 'data-address-target': 'number' } %>
+</div>
+<div class="col-sm-2">
+  <%= f.input :complement, label: 'Complemento', class: 'col-sm-6',
+                input_html: { 'data-address-target': 'complement' } %>
+</div>
+<div class="col-sm-3">
+  <%= f.input :neighborhood, label: 'Bairro', class: 'col-sm-6',
+               input_html: { 'data-address-target': 'neighborhood' } %>
+</div>
+

@@ -15,11 +15,13 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb
     - db/**/*.rb
+    - config/**/*.rb
 
 Metrics/MethodLength:
   Exclude:
     - spec/**/*.rb
     - db/**/*.rb
+    - config/**/*.rb
 
 Style/StringLiterals:
   Exclude:
