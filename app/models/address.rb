@@ -7,12 +7,4 @@ class Address < ApplicationRecord
   validates :address, uniqueness: { scope: %i[city_id number complement neighborhood zip_code] }
 
   delegate :id, to: :state, prefix: true, allow_nil: true
-
-  def self.ransackable_attributes(_auth_object = nil)
-    %w[address number complement neighborhood zip_code]
-  end
-
-  def self.ransackable_associations(_auth_object = nil)
-    %w[city state country]
-  end
 end

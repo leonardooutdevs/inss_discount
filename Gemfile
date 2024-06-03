@@ -61,4 +61,5 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'webmock'
 end

@@ -12,8 +12,4 @@ class State < ApplicationRecord
   def self.ransackable_attributes(_auth_object = nil)
     %w[name uf]
   end
-
-  def self.ransackable_associations(_auth_object = nil)
-    %w[cities state country]
-  end
 end

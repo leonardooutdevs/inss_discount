@@ -7,8 +7,9 @@ module FlashMessageHelper
   }.with_indifferent_access.freeze
 
   def flash_messages
+    puts '==' * 1000
+    puts flash.as_json
     html = ''
-
     flash.each do |key, value|
       html += content_tag(:div, class: "alert alert-#{KINDS[key]} alert-dismissible fade show", role: 'alert') do
         content_message(value)

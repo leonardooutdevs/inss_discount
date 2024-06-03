@@ -4,8 +4,11 @@ require 'spec_helper'
 require_relative '../config/environment'
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'webmock/rspec'
 
 Dir[Rails.root.join(*%w[spec support ** *.rb])].each { |file| require file }
+
+WebMock.disable_net_connect!
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -20,6 +23,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.include MoneyHelper
 
+  config.include JsonHelper, type: :request
   config.include Rails.application.routes.url_helpers
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
