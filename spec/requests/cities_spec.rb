@@ -16,7 +16,7 @@ RSpec.describe 'Cities' do
     end
 
     context 'when filter by state' do
-      let(:params) { { q: { state_id_eq: city.state_id }} }
+      let(:params) { { q: { state_id_eq: city.state_id } } }
 
       let(:city) { create(:city) }
 

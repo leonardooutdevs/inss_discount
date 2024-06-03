@@ -6,7 +6,7 @@ class CitiesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @cities }
+      format.json { render json: cities }
     end
   end
 

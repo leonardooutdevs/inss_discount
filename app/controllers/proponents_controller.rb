@@ -12,13 +12,13 @@ class ProponentsController < ApplicationController
 
   def new
     @proponent = Proponent.new
-    @proponent.proponent_addresses.build.build_address
-    @proponent.proponent_phones.build.build_phone
+    proponent.proponent_addresses.build.build_address
+    proponent.proponent_phones.build.build_phone
   end
 
   def edit
-    @proponent.proponent_addresses.build.build_address if addresses.blank?
-    @proponent.proponent_phones.build.build_phone if phones.blank?
+    proponent.proponent_addresses.build.build_address if addresses.blank?
+    proponent.proponent_phones.build.build_phone if phones.blank?
   end
 
   def create
