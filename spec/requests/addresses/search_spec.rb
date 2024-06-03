@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Proponents::Reports', type: :request do
+RSpec.describe 'Proponents::Reports' do
   before do
     sign_in(create(:user))
   end

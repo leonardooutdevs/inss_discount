@@ -32,7 +32,7 @@ RSpec.describe 'Users::Sessions' do
   end
 
   describe 'POST /users' do
-    context 'when is not logged' do
+    context 'when successful' do
       subject(:post_create) { post('/users', params:) }
 
       let(:params) { { user: { email: 'email@email.com', password: 'teste', password_confirmation: 'teste' } } }
@@ -40,6 +40,15 @@ RSpec.describe 'Users::Sessions' do
       it_behaves_like 'a request', :see_other
       it { expect { post_create }.to change(User, :count) }
       it { post_create and expect(flash[:notice]).to eq(I18n.t('devise.registrations.signed_up')) }
+    end
+
+    context 'when failure' do
+      subject(:post_create) { post('/users', params:) }
+
+      let(:params) { { user: { email: 'email@email.com', password: 'teste', password_confirmation: 'teste123' } } }
+
+      it_behaves_like 'a request', :unprocessable_entity
+      it { expect { post_create }.not_to change(User, :count) }
     end
   end
 end
