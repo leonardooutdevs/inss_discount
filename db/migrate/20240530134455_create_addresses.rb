@@ -4,8 +4,8 @@ class CreateAddresses < ActiveRecord::Migration[7.0]
       t.references :city, null: false, foreign_key: true, type: :uuid
 
       t.string :address, null: false, default: '', limit: 128
-      t.string :number, null: false, default: '', limit: 32
-      t.string :complement, null: false, default: '', limit: 32
+      t.string :number, limit: 32
+      t.string :complement, limit: 32
       t.string :neighborhood, null: false, default: '', limit: 128
       t.string :zip_code, null: false, default: '', limit: 32
 

@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Phone do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#validations' do
+    subject(:phone) { create(:phone) }
+
+    it { is_expected.to validate_presence_of(:number) }
+  end
 end

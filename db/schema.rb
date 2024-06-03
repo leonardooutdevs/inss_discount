@@ -18,8 +18,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
   create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "city_id", null: false
     t.string "address", limit: 128, default: "", null: false
-    t.string "number", limit: 32, default: "", null: false
-    t.string "complement", limit: 32, default: "", null: false
+    t.string "number", limit: 32
+    t.string "complement", limit: 32
     t.string "neighborhood", limit: 128, default: "", null: false
     t.string "zip_code", limit: 32, default: "", null: false
     t.datetime "created_at", null: false

@@ -25,7 +25,7 @@ class Proponent < ApplicationRecord
     presence: true
   )
 
-  validates :document, uniqueness: true, format: { with: /\A\d+\z/ }
+  validates :document, uniqueness: true, format: { with: /\A\d+\z/, case_sensitive: false }
 
   before_validation :calculate_discount, if: :gross_salary_changed?
   before_validation lambda {
@@ -33,4 +33,12 @@ class Proponent < ApplicationRecord
   }
 
   def calculate_discount = Discount.call(self)
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[name document]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[addresses phones]
+  end
 end

@@ -5,12 +5,13 @@ class City < ApplicationRecord
   has_one :country, through: :state
   has_many :addresses, dependent: :destroy
 
-  validates :name, presence: true
+  validates :ibge_code, :name, presence: true
+  validates :name, uniqueness: { scope: :state_id }
 
   default_scope -> { order(:name) }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[name uf]
+    %w[name]
   end
 
   def self.ransackable_associations(_auth_object = nil)

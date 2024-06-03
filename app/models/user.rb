@@ -9,9 +9,9 @@ class User < ApplicationRecord
     :validatable
   )
 
-  validates :email, presence: true
+  validates :email, presence: true, uniqueness: true
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id email]
+    %w[email]
   end
 end
