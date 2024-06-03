@@ -1,0 +1,43 @@
+<div class="row g-0">
+  <div class="col-md-12">
+    <div id="chart" class="mt-4 mb-4">
+      <%= column_chart grouped_data, stacked: true, height: "500px" %>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card-body">
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <% proponent_data.each do |state, ranges| %>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-heading<%= state %>">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<%= state %>" aria-expanded="false" aria-controls="flush-collapse<%= state %>">
+                  <%= state %>
+                </button>
+              </h2>
+              <div id="flush-collapse<%= state %>" class="accordion-collapse collapse" aria-labelledby="flush-heading<%= state %>" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th><%= t('.salary_range') %></th>
+                        <th><%= t('.proponents.count') %></th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% ranges.each do |range, count| %>
+                        <tr>
+                          <td><%= range %></td>
+                          <td><%= count %></td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

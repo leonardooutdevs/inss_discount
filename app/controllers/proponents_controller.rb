@@ -16,7 +16,10 @@ class ProponentsController < ApplicationController
     @proponent.proponent_phones.build.build_phone
   end
 
-  def edit; end
+  def edit
+    @proponent.proponent_addresses.build.build_address if addresses.blank?
+    @proponent.proponent_phones.build.build_phone if phones.blank?
+  end
 
   def create
     @proponent = Proponent.new(permitted_params)
@@ -37,6 +40,8 @@ class ProponentsController < ApplicationController
   private
 
   attr_reader :proponents, :proponent, :q
+
+  delegate :addresses, :phones, to: :proponent, allow_nil: true
 
   def set_proponent
     @proponent = Proponent.find(params.require(:id))

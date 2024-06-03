@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboard::Proponents' do
+RSpec.describe 'Proponents' do
   before { sign_in(create(:user)) }
 
   describe 'GET /index' do
@@ -61,7 +61,19 @@ RSpec.describe 'Dashboard::Proponents' do
     let(:proponent_attributes) do
       attributes_for(
         :proponent,
-        gross_salary:
+        gross_salary:,
+        proponent_addresses_attributes: {
+          '1' => {
+            kind: 'residential',
+            address_attributes: attributes_for(:address).merge(city_id: create(:city).id)
+          }
+        },
+        proponent_phones_attributes: {
+          '1' => {
+            kind: 'residential',
+            phone_attributes: attributes_for(:phone)
+          }
+        }
       )
     end
 
@@ -70,7 +82,12 @@ RSpec.describe 'Dashboard::Proponents' do
     shared_examples 'successful creation with discount' do |kind|
       it_behaves_like 'a request', kind
 
-      it { expect { post_create }.to change(Proponent, :count).by(1) }
+      it do
+        expect { post_create }
+          .to change(Proponent, :count).by(1)
+          .and change(ProponentAddress, :count).by(1).and change(Address, :count).by(1)
+          .and change(ProponentPhone, :count).by(1).and change(Phone, :count).by(1)
+      end
 
       it 'is expected calculate correctly discount', :aggregate_failures do
         post_create

@@ -1,6 +1,8 @@
 class Proponent < ApplicationRecord
   paginates_per 5
 
+  belongs_to :salary
+
   has_many :proponent_addresses, dependent: :destroy
   has_many :addresses, through: :proponent_addresses
 
@@ -26,6 +28,9 @@ class Proponent < ApplicationRecord
   validates :document, uniqueness: true, format: { with: /\A\d+\z/ }
 
   before_validation :calculate_discount, if: :gross_salary_changed?
+  before_validation lambda {
+    self.salary = Salary.find_by('min_amount <= ? AND max_amount >= ?', gross_salary, gross_salary)
+  }
 
   def calculate_discount = Discount.call(self)
 end

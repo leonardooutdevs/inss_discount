@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboard::Salaries' do
+RSpec.describe 'Salaries' do
   before { sign_in(create(:user)) }
 
   describe 'GET /index' do

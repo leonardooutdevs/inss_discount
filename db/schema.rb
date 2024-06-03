@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
   end
 
   create_table "proponents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "salary_id", null: false
     t.decimal "gross_salary", null: false
     t.decimal "discount", null: false
     t.decimal "net_salary", null: false
@@ -85,6 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["document"], name: "index_proponents_on_document", unique: true
+    t.index ["salary_id"], name: "index_proponents_on_salary_id"
     t.check_constraint "document::text ~ '^\\d+$'::text", name: "check_numeric_document"
   end
 
@@ -128,5 +130,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
   add_foreign_key "proponent_addresses", "proponents"
   add_foreign_key "proponent_phones", "phones"
   add_foreign_key "proponent_phones", "proponents"
+  add_foreign_key "proponents", "salaries"
   add_foreign_key "states", "countries"
 end

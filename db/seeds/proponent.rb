@@ -8,22 +8,26 @@ module Seeds
 
         create_salaries unless Salary.exists?
 
-        50.times do
-          proponent = create_proponent
-          puts "Proponent created: ##{proponent.id} - #{proponent.name}"
+        State.all.each do |state|
+          Salary.all.each do |salary|
+            rand(2..9).times do
+              proponent = create_proponent(state, salary)
+              puts "Proponent created: ##{proponent.id} - #{proponent.name}"
+            end
+          end
         end
       end
 
       private
 
 
-      def create_proponent
-        address = create_address
+      def create_proponent(state, salary)
+        address = create_address(state)
         phone = create_phone
         proponent = ::Proponent.create!(
-          gross_salary: Faker::Number.decimal(l_digits: 4, r_digits: 2),
+          gross_salary: Faker::Number.between(from: salary.min_amount, to: salary.max_amount),
           name: Faker::Name.name,
-          document: Faker::IdNumber.brazilian_citizen_number, # or generate a valid CPF
+          document: Faker::IdNumber.brazilian_citizen_number,
           birth_date: Faker::Date.between(from: '1930-01-01', to: '2002-01-01')
         )
 
@@ -33,9 +37,9 @@ module Seeds
         proponent
       end
 
-      def create_address
+      def create_address(state)
         ::Address.create!(
-          city: City.all.sample,
+          city: state.cities.sample,
           address: Faker::Address.street_name,
           number: Faker::Address.building_number,
           complement: Faker::Address.secondary_address,

@@ -29,6 +29,12 @@ en:
       fill_address: Fill Address Manually
       city: Select City
       state: Select State
+    reports:
+      title: Reports
+      index:
+        salary_range: Salary Range
+        proponents:
+          count: Number of Proponents
     update:
       success: 'Update successful'
     create:
@@ -37,3 +43,5 @@ en:
     application:
       proponents:
         title: Proponents
+        reports:
+          title: Reports

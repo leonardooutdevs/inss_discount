@@ -1,0 +1,28 @@
+<div class="row g-0">
+  <div class="col-md-6">
+    <div id="chart" class="mt-4 mb-4">
+      <%= pie_chart proponents_reports_data %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th><%= t('.salary_range') %></th>
+            <th><%= t('.proponents.count') %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% proponents_reports_data.each do |salary_range, count| %>
+            <tr>
+              <td><%= salary_range %></td>
+              <td><%= count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

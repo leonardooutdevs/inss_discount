@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboard::Cities' do
+RSpec.describe 'Cities' do
   before { sign_in(create(:user)) }
 
   describe 'GET /index' do

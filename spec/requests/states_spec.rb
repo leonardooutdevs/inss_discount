@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboard::States' do
+RSpec.describe 'States' do
   before { sign_in(create(:user)) }
 
   describe 'GET /index' do

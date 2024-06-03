@@ -8,5 +8,10 @@ FactoryBot.define do
     before(:create) do
       create(:salary, :all) unless Salary.exists?
     end
+
+    after(:build) do |proponent|
+      proponent.addresses << build(:address) if proponent.addresses.blank?
+      proponent.phones << build(:phone) if proponent.phones.blank?
+    end
   end
 end

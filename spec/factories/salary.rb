@@ -11,7 +11,7 @@ FactoryBot.define do
         unless Salary.exists?
           create(:salary, min_amount: 1045.01, max_amount: 2089.60, calculation_basis: 0.09)
           create(:salary, min_amount: 2089.61, max_amount: 3134.40, calculation_basis: 0.12)
-          create(:salary, min_amount: 3134.41, max_amount: 6101.06, calculation_basis: 0.14)
+          create(:salary, min_amount: 3134.41, max_amount: 9_999_999, calculation_basis: 0.14)
         end
       end
     end

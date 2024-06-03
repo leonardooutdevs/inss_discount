@@ -22,6 +22,7 @@ module SidebarHelper
       id: 'proponent',
       name: t('.proponents.title'),
       items: [
+        { name: t('.proponents.reports.title'), path: reports_proponents_path },
         { name: t('.proponents.title'), path: url_for([:proponents]) },
         { name: t('.salaries.title'), path: url_for([:salaries]) }
       ]

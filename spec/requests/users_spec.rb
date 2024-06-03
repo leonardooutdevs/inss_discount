@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboard::Users' do
+RSpec.describe 'Users' do
   before { sign_in(create(:user)) }
 
   describe 'GET /index' do

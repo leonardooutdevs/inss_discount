@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :proponents do
     collection do
       get 'calculate_discount', controller: 'proponents/calculate_discounts', action: :index
+      get 'reports', controller: 'proponents/reports', action: :index
     end
   end
 

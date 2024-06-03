@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboard::CalculateDiscounts' do
+RSpec.describe 'Proponents::CalculateDiscounts' do
   before do
     sign_in(current_user)
     allow(Proponents::CalculateDiscountJob).to receive(:perform_later).and_call_original

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Dashboard::Countries' do
+RSpec.describe 'Countries' do
   before { sign_in(create(:user)) }
 
   describe 'GET /index' do
