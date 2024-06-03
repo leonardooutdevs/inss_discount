@@ -8,9 +8,21 @@ RSpec.describe 'Cities' do
 
     let(:params) { {} }
 
+    before { create_list(:city, 1) }
+
     context 'when successful' do
       it_behaves_like 'a request'
       it { get_index and expect(response).to render_template :index }
+    end
+
+    context 'when filter by state' do
+      let(:params) { { q: { state_id_eq: city.state_id }} }
+
+      let(:city) { create(:city) }
+
+      it_behaves_like 'a request'
+      it { get_index and expect(response).to render_template :index }
+      it { get_index and expect(response.body).to include(city.name) }
     end
   end
 
