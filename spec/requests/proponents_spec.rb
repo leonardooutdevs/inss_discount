@@ -14,6 +14,17 @@ RSpec.describe 'Proponents' do
     end
   end
 
+  describe 'GET /show' do
+    context 'when successful' do
+      subject(:get_show) { get proponent_path(proponent) }
+
+      let(:proponent) { create(:proponent) }
+
+      it_behaves_like 'a request'
+      it { get_show and expect(response).to render_template :_proponent }
+    end
+  end
+
   describe 'GET /new' do
     context 'when successful' do
       subject(:get_edit) { get new_proponent_path }
@@ -31,17 +42,6 @@ RSpec.describe 'Proponents' do
 
       it_behaves_like 'a request'
       it { get_edit and expect(response).to render_template :_form }
-    end
-  end
-
-  describe 'GET /show' do
-    context 'when successful' do
-      subject(:get_show) { get proponent_path(proponent) }
-
-      let(:proponent) { create(:proponent) }
-
-      it_behaves_like 'a request'
-      it { get_show and expect(response).to render_template :_proponent }
     end
   end
 
