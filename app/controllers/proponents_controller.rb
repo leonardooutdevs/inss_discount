@@ -1,5 +1,18 @@
 class ProponentsController < ResourcefulController
-  resourceful include_nesteds: true
+  resourceful(
+    include_nesteds: true,
+    columns: %(
+      proponents.id,
+      proponents.name,
+      document,
+      gross_salary,
+      discount,
+      net_salary,
+      cities.name as city_name,
+      states.uf as state_uf
+    ),
+    tables: { address: { city: :state } }
+  )
 
   private
 

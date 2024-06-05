@@ -5,11 +5,23 @@ module Resourceful
   ACTIONS = %i[index show new edit create update destroy].freeze
 
   module ClassMethods
-    attr_accessor :acts, :include_nesteds
+    Options = Struct.new(:acts, :include_nesteds, :columns, :tables, keyword_init: true) do
+      def initialize(...)
+        super
+
+        self.acts ||= (ACTIONS - (opts[:except].presence || []))
+      end
+    end
+
+    attr_accessor :options
+
+    delegate :acts, :include_nesteds, :columns, :tables, to: :options
 
     def resourceful(opts = {})
-      self.acts = opts[:only].presence || (ACTIONS - (opts[:except].presence || []))
-      self.include_nesteds = opts[:include_nesteds].to_boolean || false
+      self.options = Options.new(
+        opts.slice(:include_nesteds, :columns, :tables)
+            .merge(acts: opts[:only].presence || (ACTIONS - (opts[:except].presence || [])))
+      )
 
       include_reads
       include_writes
@@ -61,11 +73,11 @@ module Resourceful
     )
   end
 
-  def set_resource
-    @instance = instance_variable_set(
-      instance_variable_name,
-      resource.find(params.require(:id))
-    )
+  def set_resource(...)
+    args = yield if block_given?
+    args ||= [instance_variable_name, resource.find(params.require(:id))]
+
+    @instance = instance_variable_set(*args)
   end
 
   def render_turbo(partial)

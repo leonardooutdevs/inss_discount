@@ -3,34 +3,39 @@ module Resourceful
     extend ActiveSupport::Concern
 
     included do
-      class_attribute :resource_actions, default: {}
-      delegate :resource_actions, to: :class
+      delegate :resource_actions, :columns, :tables, to: :class
 
       define_method :index do |&block|
         index_content(&block)
       end
 
       alias_method :index_resourceful, :index
+    end
 
-      def index_content(...)
-        yield if block_given?
+    protected
 
-        set_resources
+    def index_content(...)
+      set_content(...)
 
-        respond_to do |format|
-          format.html
-          format.json { render json: send(controller_name) }
-        end
+      respond_to do |format|
+        format.html
+        format.json { render json: send(controller_name) }
       end
+    end
 
-      def set_resources
-        @q ||= resource.ransack(search_params)
+    def set_content(...)
+      yield if block_given?
 
-        instance_variable_set(
-          instance_variable_name.pluralize,
-          q.result(distinct: true).page(params[:page]).per(params[:per])
-        )
-      end
+      @q ||= resource.select(columns).joins(tables).ransack(search_params)
+
+      set_index_resource
+    end
+
+    def set_index_resource
+      instance_variable_set(
+        instance_variable_name.pluralize,
+        q.result(distinct: true).page(params[:page]).per(params[:per])
+      )
     end
   end
 end

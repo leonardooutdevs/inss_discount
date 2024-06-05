@@ -6,11 +6,27 @@ RSpec.describe 'Proponents' do
   describe 'GET /index' do
     subject(:get_index) { get('/proponents', params:) }
 
-    let(:params) { {} }
-
-    context 'when successful' do
+    shared_examples 'successful behaviour' do
       it_behaves_like 'a request'
       it { get_index and expect(response).to render_template :index }
+    end
+
+    context 'when search by name' do
+      let(:params) { { name_cont: proponent.name } }
+
+      let(:proponent) { create(:proponent) }
+
+      it_behaves_like 'successful behaviour'
+      it { get_index and expect(response.body).to include(proponent.name) }
+    end
+
+    context 'when search by state' do
+      let(:params) { { addresses_state_name_cont: proponent.address.state.name } }
+
+      let(:proponent) { create(:proponent) }
+
+      it_behaves_like 'successful behaviour'
+      it { get_index and expect(response.body).to include(proponent.address.state.name) }
     end
   end
 

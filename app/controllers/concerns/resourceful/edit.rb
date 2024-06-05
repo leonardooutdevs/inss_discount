@@ -14,6 +14,8 @@ module Resourceful
       alias_method :edit_resourceful, :edit
     end
 
+    protected
+
     def edit_content(...)
       yield if block_given?
 

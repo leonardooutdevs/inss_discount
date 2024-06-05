@@ -14,6 +14,8 @@ module Resourceful
       alias_method :new_resourceful, :new
     end
 
+    protected
+
     def new_content(...)
       yield if block_given?
 

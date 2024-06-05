@@ -16,6 +16,9 @@
       <%= m proponent.net_salary %>
     </div>
     <div class='col'>
+      <%= "#{proponent.city_name} - #{proponent.state_uf}" %>
+    </div>
+    <div class='col'>
       <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
         <%= link_to t('edit'),
             url_for([:edit, proponent]),

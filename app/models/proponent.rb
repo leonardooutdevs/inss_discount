@@ -1,19 +1,19 @@
 class Proponent < ApplicationRecord
-  paginates_per 5
+  paginates_per 50
 
   belongs_to :salary
 
   has_many :proponent_addresses, dependent: :destroy
   has_many :addresses, through: :proponent_addresses
 
+  has_one :proponent_address, -> { residential }, dependent: :destroy, inverse_of: :proponent
+  has_one :address, through: :proponent_address
+
   has_many :proponent_phones, dependent: :destroy
   has_many :phones, through: :proponent_phones
 
   accepts_nested_attributes_for :proponent_addresses, allow_destroy: true
-  # accepts_nested_attributes_for :addresses, allow_destroy: true
-
   accepts_nested_attributes_for :proponent_phones, allow_destroy: true
-  # accepts_nested_attributes_for :phones, allow_destroy: true
 
   validates(
     :name,
