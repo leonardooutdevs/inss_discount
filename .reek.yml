@@ -10,7 +10,9 @@ exclude_paths:
 detectors:
   Attribute:
     enabled: true
-    exclude: []
+    exclude:
+      - acts
+      - include_nesteds
   BooleanParameter:
     enabled: true
     exclude: []

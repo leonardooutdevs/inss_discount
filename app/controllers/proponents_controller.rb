@@ -1,5 +1,5 @@
-class ProponentsController < ApplicationController
-  include Resourceful
+class ProponentsController < ResourcefulController
+  resourceful include_nesteds: true
 
   private
 
