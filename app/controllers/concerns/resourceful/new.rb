@@ -5,9 +5,21 @@ module Resourceful
     included do
       delegate :include_nesteds, to: :class
 
-      define_method :new do
+      define_method :new do |&block|
         initialize_instance
         build_nesteds if include_nesteds
+        new_content(&block)
+      end
+
+      alias_method :new_resourceful, :new
+    end
+
+    def new_content(...)
+      yield if block_given?
+
+      respond_to do |format|
+        format.html
+        format.turbo_stream { render_turbo('form') }
       end
     end
   end

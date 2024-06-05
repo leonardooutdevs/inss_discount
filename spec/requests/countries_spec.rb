@@ -16,7 +16,7 @@ RSpec.describe 'Countries' do
 
   describe 'GET /edit' do
     context 'when successful' do
-      subject(:get_edit) { get edit_country_path(country) }
+      subject(:get_edit) { get edit_country_path(country, format: :turbo_stream) }
 
       let(:country) { create(:country) }
 
@@ -27,7 +27,7 @@ RSpec.describe 'Countries' do
 
   describe 'GET /show' do
     context 'when successful' do
-      subject(:get_show) { get country_path(country) }
+      subject(:get_show) { get country_path(country, format: :turbo_stream) }
 
       let(:country) { create(:country) }
 

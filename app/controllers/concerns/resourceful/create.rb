@@ -3,19 +3,23 @@ module Resourceful
     extend ActiveSupport::Concern
 
     included do
-      define_method :create do |*args, &block|
+      define_method :create do |&block|
         initialize_instance(permitted_params)
-        create_content(*args, &block)
+        create_content(&block)
       end
+
+      alias_method :create_resourceful, :create
     end
 
     protected
 
     def create_content(...)
       if instance.save
-        return yield if block_given?
+        yield if block_given?
 
-        redirect_to url_for([controller_name.to_sym]), notice: t('.success')
+        respond_to do |format|
+          format.html { redirect_to url_for([controller_name.to_sym]), notice: t('.success') }
+        end
       else
         render_turbo('form')
       end

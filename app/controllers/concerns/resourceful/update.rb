@@ -3,22 +3,29 @@ module Resourceful
     extend ActiveSupport::Concern
 
     included do
-      define_method :update do
+      define_method :update do |&block|
         set_resource
-        update_content
+        update_content(&block)
       end
+
+      alias_method :update_resourceful, :update
     end
 
     protected
 
-    def update_content
+    def update_content(...)
       if instance.update(permitted_params)
-        return yield if block_given?
+        yield if block_given?
 
-        redirect_to url_for([:edit, instance]), notice: t('.success')
+        respond_to do |format|
+          format.html { redirect_to url_for([:edit, instance]), notice: t('.success') }
+          format.turbo_stream { turbo_response }
+        end
       else
-        render_turbo('form')
+        turbo_response
       end
     end
+
+    def turbo_response = render_turbo('form')
   end
 end

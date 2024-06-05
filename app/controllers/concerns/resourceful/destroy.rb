@@ -3,24 +3,20 @@ module Resourceful
     extend ActiveSupport::Concern
 
     included do
-      define_method :destroy do |*args, &block|
+      define_method :destroy do |&block|
         set_resource
-        destroy_content(*args, &block)
+        destroy_content(&block)
       end
+
+      alias_method :destroy_resourceful, :destroy
     end
 
     protected
 
     def destroy_content(...)
-      path = url_for([controller_name.to_sym])
+      block_given? ? yield : instance.try(:inactive!) || instance.destroy!
 
-      if instance.destroy!
-        return yield if block_given?
-
-        redirect_to path, notice: t('.success')
-      else
-        redirect_to path, notice: t('.failure')
-      end
+      redirect_to url_for([controller_name.to_sym]), notice: t('.success')
     end
   end
 end
