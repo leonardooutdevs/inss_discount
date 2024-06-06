@@ -13,7 +13,8 @@ class ProponentsController < ResourcefulController
       salaries.salary_range
     ),
     scopes: %i[with_state],
-    tables: :salary
+    tables: :salary,
+    decorate: true
   )
 
   private

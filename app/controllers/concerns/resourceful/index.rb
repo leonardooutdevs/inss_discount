@@ -30,9 +30,11 @@ module Resourceful
     end
 
     def set_index_resource
+      collection = q.result(distinct: true).page(params[:page]).per(params[:per])
+
       instance_variable_set(
         instance_variable_name.pluralize,
-        q.result(distinct: true).page(params[:page]).per(params[:per])
+        decorate ? collection.decorate : collection
       )
     end
   end

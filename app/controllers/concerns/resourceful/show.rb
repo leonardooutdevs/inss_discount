@@ -23,10 +23,11 @@ module Resourceful
     end
 
     def set_show_resource
+      element = scoped_resource.find(params.require(:id))
       set_resource do
         [
           instance_variable_name,
-          scoped_resource.find(params.require(:id))
+          decorate ? element.decorate : element
         ]
       end
     end

@@ -51,6 +51,10 @@ GEM
       globalid (>= 0.3.6)
     activemodel (7.0.8.3)
       activesupport (= 7.0.8.3)
+    activemodel-serializers-xml (1.0.2)
+      activemodel (> 5.x)
+      activesupport (> 5.x)
+      builder (~> 3.1)
     activerecord (7.0.8.3)
       activemodel (= 7.0.8.3)
       activesupport (= 7.0.8.3)
@@ -111,6 +115,13 @@ GEM
     dotenv-rails (3.1.2)
       dotenv (= 3.1.2)
       railties (>= 6.1)
+    draper (4.0.2)
+      actionpack (>= 5.0)
+      activemodel (>= 5.0)
+      activemodel-serializers-xml (>= 1.0)
+      activesupport (>= 5.0)
+      request_store (>= 1.0)
+      ruby2_keywords
     dry-configurable (1.1.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
@@ -286,6 +297,8 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.7)
       io-console (~> 0.5)
+    request_store (1.7.0)
+      rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -345,6 +358,7 @@ GEM
     rubocop-rspec_rails (2.28.3)
       rubocop (~> 1.40)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -439,6 +453,7 @@ DEPENDENCIES
   debug
   devise
   dotenv-rails
+  draper
   factory_bot_rails
   faker
   groupdate

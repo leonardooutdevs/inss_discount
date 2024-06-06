@@ -2,8 +2,6 @@ module Resourceful
   extend ActiveSupport::Concern
   class NotImplemented < StandardError; end
 
-  ACTIONS = %i[index show new edit create update destroy].freeze
-
   included do
     delegate_missing_to :class, allow_nil: true
 
