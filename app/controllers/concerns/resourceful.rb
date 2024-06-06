@@ -4,44 +4,9 @@ module Resourceful
 
   ACTIONS = %i[index show new edit create update destroy].freeze
 
-  module ClassMethods
-    Options = Struct.new(:acts, :include_nesteds, :columns, :tables, keyword_init: true) do
-      def initialize(...)
-        super
-
-        self.acts ||= (ACTIONS - (opts[:except].presence || []))
-      end
-    end
-
-    attr_accessor :options
-
-    delegate :acts, :include_nesteds, :columns, :tables, to: :options
-
-    def resourceful(opts = {})
-      self.options = Options.new(
-        opts.slice(:include_nesteds, :columns, :tables)
-            .merge(acts: opts[:only].presence || (ACTIONS - (opts[:except].presence || [])))
-      )
-
-      include_reads
-      include_writes
-    end
-
-    def include_reads
-      include Index if acts.include?(:index)
-      include Show if acts.include?(:show)
-      include New if acts.include?(:new)
-      include Edit if acts.include?(:edit)
-    end
-
-    def include_writes
-      include Create if acts.include?(:create)
-      include Update if acts.include?(:update)
-      include Destroy if acts.include?(:destroy)
-    end
-  end
-
   included do
+    delegate_missing_to :class, allow_nil: true
+
     before_action :set_readers
   end
 
@@ -54,6 +19,13 @@ module Resourceful
   def resource = controller_name.classify.safe_constantize
   def instance_variable_name = "@#{variable_name}"
   def variable_name = controller_name.singularize
+
+  def scoped_resource
+    scopes
+      .reduce(resource) { |resource, scope| resource.public_send(scope) }
+      .select(columns)
+      .joins(tables)
+  end
 
   def set_readers
     controller_klass = controller_name

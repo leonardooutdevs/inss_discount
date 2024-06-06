@@ -3,8 +3,6 @@ module Resourceful
     extend ActiveSupport::Concern
 
     included do
-      delegate :resource_actions, :columns, :tables, to: :class
-
       define_method :show do |&block|
         set_show_resource
         show_content(&block)
@@ -28,7 +26,7 @@ module Resourceful
       set_resource do
         [
           instance_variable_name,
-          resource.select(columns).joins(tables).find(params.require(:id))
+          scoped_resource.find(params.require(:id))
         ]
       end
     end

@@ -9,9 +9,11 @@ class ProponentsController < ResourcefulController
       discount,
       net_salary,
       cities.name as city_name,
-      states.uf as state_uf
+      states.uf as state_uf,
+      salaries.salary_range
     ),
-    tables: { address: { city: :state } }
+    scopes: %i[with_state],
+    tables: :salary
   )
 
   private

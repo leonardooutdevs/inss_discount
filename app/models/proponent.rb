@@ -32,6 +32,9 @@ class Proponent < ApplicationRecord
     self.salary = Salary.find_by('min_amount <= ? AND max_amount >= ?', gross_salary, gross_salary)
   }
 
+  scope :with_salary, -> { joins(:salary) }
+  scope :with_state, -> { joins({ address: { city: :state } }) }
+
   def calculate_discount = Discount.call(self)
 
   def self.ransackable_attributes(_auth_object = nil)

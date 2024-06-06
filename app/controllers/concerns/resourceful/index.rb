@@ -3,8 +3,6 @@ module Resourceful
     extend ActiveSupport::Concern
 
     included do
-      delegate :resource_actions, :columns, :tables, to: :class
-
       define_method :index do |&block|
         index_content(&block)
       end
@@ -26,7 +24,7 @@ module Resourceful
     def set_content(...)
       yield if block_given?
 
-      @q ||= resource.select(columns).joins(tables).ransack(search_params)
+      @q ||= scoped_resource.ransack(search_params)
 
       set_index_resource
     end

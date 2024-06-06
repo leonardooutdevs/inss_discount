@@ -3,8 +3,6 @@ module Resourceful
     extend ActiveSupport::Concern
 
     included do
-      delegate :include_nesteds, to: :class
-
       define_method :new do |&block|
         initialize_instance
         build_nesteds if include_nesteds
