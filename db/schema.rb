@@ -10,10 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_06_202112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "access_levels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", limit: 64, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "access_permission_levels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "access_permission_id", null: false
+    t.uuid "access_level_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["access_level_id"], name: "index_access_permission_levels_on_access_level_id"
+    t.index ["access_permission_id", "access_level_id"], name: "index_apl_on_ap_id_and_al_id", unique: true
+    t.index ["access_permission_id"], name: "index_access_permission_levels_on_access_permission_id"
+  end
+
+  create_table "access_permissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", limit: 64, null: false
+    t.string "model", limit: 64, null: false
+    t.string "status", default: "active", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["model"], name: "index_access_permissions_on_model", unique: true
+  end
 
   create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "city_id", null: false
@@ -112,7 +137,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
     t.index ["name", "country_id"], name: "index_states_on_name_and_country_id", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "user_accesses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "access_permission_level_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["access_permission_level_id"], name: "index_user_accesses_on_access_permission_level_id"
+    t.index ["user_id", "access_permission_level_id"], name: "index_user_accesses_on_user_id_and_access_permission_level_id", unique: true
+    t.index ["user_id"], name: "index_user_accesses_on_user_id"
+  end
+
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -124,6 +159,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "access_permission_levels", "access_levels"
+  add_foreign_key "access_permission_levels", "access_permissions"
   add_foreign_key "addresses", "cities"
   add_foreign_key "cities", "states"
   add_foreign_key "proponent_addresses", "addresses"
@@ -132,4 +169,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
   add_foreign_key "proponent_phones", "proponents"
   add_foreign_key "proponents", "salaries"
   add_foreign_key "states", "countries"
+  add_foreign_key "user_accesses", "access_permission_levels"
+  add_foreign_key "user_accesses", "users"
 end

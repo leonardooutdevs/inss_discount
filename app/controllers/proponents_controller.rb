@@ -2,8 +2,9 @@ class ProponentsController < ApplicationController
   before_action :set_proponent, only: %i[show edit update]
 
   def index
-    @q = Proponent.ransack(params[:q])
+    @q = scope.ransack(params[:q])
     @proponents = q.result(distinct: true).page(params[:page])
+    authorize(proponents)
   end
 
   def show
@@ -11,7 +12,7 @@ class ProponentsController < ApplicationController
   end
 
   def new
-    @proponent = Proponent.new
+    @proponent = authorize(scope.new)
     proponent.proponent_addresses.build.build_address
     proponent.proponent_phones.build.build_phone
   end
@@ -22,7 +23,7 @@ class ProponentsController < ApplicationController
   end
 
   def create
-    @proponent = Proponent.new(permitted_params)
+    @proponent = authorize(scope.new(permitted_params))
 
     return redirect_to proponents_path, notice: t('.success') if proponent.save
 
@@ -44,8 +45,10 @@ class ProponentsController < ApplicationController
   delegate :addresses, :phones, to: :proponent, allow_nil: true
 
   def set_proponent
-    @proponent = Proponent.find(params.require(:id))
+    @proponent = authorize(scope.find(params.require(:id)))
   end
+
+  def scope = policy_scope(Proponent)
 
   def permitted_params
     params.require(:proponent).permit(
