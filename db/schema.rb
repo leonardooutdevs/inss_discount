@@ -17,8 +17,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_06_202112) do
 
   create_table "access_levels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", limit: 64, null: false
+    t.string "kind", limit: 64, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["kind"], name: "index_access_levels_on_kind", unique: true
   end
 
   create_table "access_permission_levels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

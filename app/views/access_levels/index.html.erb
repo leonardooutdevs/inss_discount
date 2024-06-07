@@ -1,0 +1,32 @@
+<%= t('.title') %>
+
+<%= search_form_for [@q], class: 'row', data: { 'turbo-stream' => true } do |f| %>
+  <div class="col-auto">
+    <%= f.label :name_or_kind_cont, t('.name'), class: 'visually-hidden' %>
+    <%= f.search_field :name_or_kind_cont, class: 'form-control'  %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit t('search'), class: 'btn btn-primary mb-3' %>
+  </div>
+<% end %>
+
+<br>
+
+<div class='row'>
+  <div class='col'>
+    <%= sort_link @q, :name, t('.name'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+    <%= sort_link @q, :kind, t('.kind'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+  </div>
+</div>
+
+<hr class='col'>
+
+<%= turbo_stream_from 'access_levels' %>
+<%= turbo_frame_tag 'access_levels', class: 'list-striped' do %>
+  <%= render @access_levels %>
+  <%= paginate @access_levels, theme: 'bootstrap-5' %>
+<% end %>

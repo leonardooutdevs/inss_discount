@@ -1,0 +1,44 @@
+<%= turbo_frame_tag dom_id(access_permission) do  %>
+  <div class='row mt-1 mb-1'>
+    <div class='col'>
+      <%= access_permission.name %>
+    </div>
+    <div class='col'>
+      <code>
+        <%= access_permission.model %>
+      </code>
+    </div>
+    <div class='col'>
+      <div class="btn-group btn-group-sm" role="group">
+        <% access_levels.each do |level| %>
+          <% if access_permission.access_levels.include?(level) %>
+            <%=
+              link_to(
+                level.kind,
+                access_permission_access_level_path(access_permission, level),
+                class: 'btn btn-primary',
+                data: { turbo: true, 'turbo-method' => :delete }
+              ) %>
+          <% else %>
+            <%=
+              link_to(
+                level.kind,
+                access_permission_access_levels_path(access_permission, id: level),
+                class: 'btn btn-outline-primary',
+                data: { turbo: true, 'turbo-method' => :post }
+              ) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class='col'>
+      <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+        <%= link_to t('edit'),
+            url_for([:edit, access_permission]),
+            class: 'btn btn-outline-primary',
+            method: :get, format: :turbostream,
+            data: { turbo: true } %>
+      </div>
+    </div>
+  </div>
+<% end %>

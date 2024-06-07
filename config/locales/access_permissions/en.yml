@@ -1,0 +1,23 @@
+en:
+  access_permissions:
+    index:
+      title: Access Permissions
+      name: Name
+      model: Model
+    form:
+      name: Name
+      model: Model
+  layouts:
+    application:
+      access_permissions:
+        title: Access Permissions
+        index: Access Permissions
+        new: Cadastrar
+
+  activerecord:
+    errors:
+      models:
+        access_permission:
+          attributes:
+            model:
+              invalid_constantizable_model: "It's not a valid model"

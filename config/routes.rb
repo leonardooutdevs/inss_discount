@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :users
+
   devise_for(
     :users,
     path_names: {
@@ -10,9 +12,11 @@ Rails.application.routes.draw do
     controllers: { sessions: 'users/sessions' }
   )
 
-  resources :users
-
-  get 'addresses/search', controller: 'addresses/search', action: :index
+  # Access
+  resources :access_permissions do
+    resources :access_levels, only: %i[create destroy], controller: 'access_permissions/access_levels'
+  end
+  resources :access_levels
 
   resources :proponents do
     collection do
@@ -24,6 +28,7 @@ Rails.application.routes.draw do
   resources :salaries
 
   # Address
+  get 'addresses/search', controller: 'addresses/search', action: :index
   resources :countries
   resources :states
   resources :cities
