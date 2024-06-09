@@ -9,6 +9,12 @@ class AccessPermission < ApplicationRecord
 
   validate :constantizable_model
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[name model]
+  end
+
+  private
+
   def constantizable_model
     Rails.application.eager_load!
     valid = ApplicationRecord.descendants.include?(model.to_s.classify.safe_constantize)

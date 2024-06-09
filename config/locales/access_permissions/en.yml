@@ -4,6 +4,20 @@ en:
       title: Access Permissions
       name: Name
       model: Model
+    show:
+      title: Access Permissions
+      name: Name
+      kind: Kind
+    new:
+      title: Access Permissions
+    edit:
+      title: Access Permissions
+    create:
+      title: Access Permissions
+    update:
+      title: Access Permissions
+    destroy:
+      title: Access Permissions
     form:
       name: Name
       model: Model

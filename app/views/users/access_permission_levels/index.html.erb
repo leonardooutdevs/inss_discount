@@ -1,0 +1,55 @@
+<%= t('.title') %>
+
+<%= search_form_for [:user, @q], class: 'row', data: { 'turbo-stream' => true } do |f| %>
+  <div class="col-auto">
+    <%= f.label :access_permission_name_or_access_permission_model_cont, t('.access_permissions.name'), class: 'visually-hidden' %>
+    <%= f.search_field :access_permission_name_or_access_permission_model_cont, class: 'form-control'  %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit t('search'), class: 'btn btn-primary mb-3' %>
+  </div>
+<% end %>
+
+<div class='row' data-controller="user-access-permission-level">
+  <% @user.pending_permissions.each do |permission| %>
+    <div class="col-md-2" data-user-access-permission-level-target="permission">
+      <div class="card border-success">
+        <div class="card-header text-center text-success">
+          <%= permission.name %>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% permission.access_levels.each do |level| %>
+              <div class="col-md-6">
+                <code>
+                  <%= level.kind %>
+                </code>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="card-footer text-center text-muted">
+          <%=
+            link_to(
+              t('.import'),
+              user_user_accesses_path(@user, access_permission_level_id: permission.access_permission_levels.default.id),
+              class: 'btn btn-sm btn-outline-success',
+              format: :turbostream,
+              data: { turbo: true, 'turbo-method' => :post, action: "click->user-access-permission-level#hideColumn" }
+            )
+          %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<hr class='col'>
+
+<%= turbo_stream_from 'access_permission_levels' %>
+<div class="accordion accordion-flush" id="accordion--access_permission_levels">
+    <%= turbo_frame_tag 'access_permission_levels', class: 'row' do %>
+      <%= render partial: "access_permission_level", collection: @access_permission_levels, locals: { user: @user } %>
+      <%= paginate @access_permission_levels, theme: 'bootstrap-5' %>
+    <% end %>
+</div>

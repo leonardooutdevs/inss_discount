@@ -15,6 +15,11 @@
             class: 'btn btn btn-outline-primary',
             method: :get, format: :turbostream,
             data: { turbo: true } %>
+        <%= link_to t('delete'),
+            access_level_path(access_level),
+            class: 'btn btn btn-outline-danger',
+            method: :delete, format: :turbostream,
+            data: { turbo: true, 'turbo-method' => :delete } %>
       </div>
     </div>
   </div>

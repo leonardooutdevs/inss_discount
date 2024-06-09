@@ -38,6 +38,11 @@
             class: 'btn btn-outline-primary',
             method: :get, format: :turbostream,
             data: { turbo: true } %>
+        <%= link_to t('delete'),
+            url_for([access_permission]),
+            class: 'btn btn-outline-danger',
+            method: :delete, format: :turbostream,
+            data: { turbo: true, 'turbo-method' => :delete } %>
       </div>
     </div>
   </div>

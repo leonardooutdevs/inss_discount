@@ -20,6 +20,15 @@
     <%= sort_link @q, :kind, t('.kind'), class: 'btn btn-sm btn-outline-secondary' %>
   </div>
   <div class='col'>
+    <%=
+      link_to(
+        t('new'),
+        new_access_level_path,
+        class: 'btn btn-sm btn-success',
+        method: :get, format: :turbostream,
+        data: { turbo: true }
+      )
+    %>
   </div>
 </div>
 

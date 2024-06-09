@@ -2,8 +2,9 @@ class SalariesController < ApplicationController
   before_action :set_salary, only: %i[show edit update]
 
   def index
-    @q = Salary.ransack(params[:q])
+    @q = scope.ransack(params[:q])
     @salaries = q.result(distinct: true).page(params[:page])
+    authorize(salaries)
   end
 
   def show
@@ -28,8 +29,10 @@ class SalariesController < ApplicationController
 
   attr_reader :salaries, :salary, :q
 
+  def scope = policy_scope(Salary)
+
   def set_salary
-    @salary = Salary.find(params.require(:id))
+    @salary = authorize(scope.find(params.require(:id)))
   end
 
   def permitted_params

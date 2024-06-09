@@ -2,8 +2,9 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update]
 
   def index
-    @q = User.ransack(params[:q])
+    @q = scope.ransack(params[:q])
     @users = q.result(distinct: true).page(params[:page])
+    authorize(users)
   end
 
   def show
@@ -26,8 +27,10 @@ class UsersController < ApplicationController
 
   attr_reader :users, :user, :q
 
+  def scope = policy_scope(User)
+
   def set_user
-    @user = User.find(params.require(:id))
+    @user = authorize(scope.find(params.require(:id)))
   end
 
   def permitted_params

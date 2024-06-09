@@ -55,7 +55,8 @@ detectors:
     max_params: 3
   ManualDispatch:
     enabled: true
-    exclude: []
+    exclude:
+      - "ApplicationPolicy#find_class"
   ModuleInitialize:
     enabled: true
     exclude: []

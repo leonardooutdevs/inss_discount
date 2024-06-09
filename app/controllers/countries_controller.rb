@@ -2,8 +2,9 @@ class CountriesController < ApplicationController
   before_action :set_country, only: %i[show edit update]
 
   def index
-    @q = Country.ransack(params[:q])
+    @q = scope.ransack(params[:q])
     @countries = q.result(distinct: true).page(params[:page])
+    authorize(countries)
   end
 
   def show
@@ -26,8 +27,10 @@ class CountriesController < ApplicationController
 
   attr_reader :countries, :country, :q
 
+  def scope = policy_scope(Country)
+
   def set_country
-    @country = Country.find(params.require(:id))
+    @country = authorize(scope.find(params.require(:id)))
   end
 
   def permitted_params

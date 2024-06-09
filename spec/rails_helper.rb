@@ -5,10 +5,12 @@ require_relative '../config/environment'
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 require 'webmock/rspec'
+require './db/seeds/access_permission/'
 
 Dir[Rails.root.join(*%w[spec support ** *.rb])].each { |file| require file }
 
 WebMock.disable_net_connect!
+Seeds::AccessPermission.import
 
 begin
   ActiveRecord::Migration.maintain_test_schema!

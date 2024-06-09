@@ -1,0 +1,50 @@
+<%= turbo_frame_tag dom_id(user, access_permission_level.id), class: 'col-md-6' do  %>
+  <% user_access = user.user_accesses.find_by(access_permission_level: access_permission_level) %>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-heading<%= access_permission_level.id %>">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<%= access_permission_level.id %>" aria-expanded="false" aria-controls="flush-collapse<%= access_permission_level.id %>">
+        <%= access_permission_level.name %>
+      </button>
+    </h2>
+    <div id="flush-collapse<%= access_permission_level.id %>" class="accordion-collapse collapse show" aria-labelledby="flush-heading<%= access_permission_level.id %>" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><%= t('.access_levels.name') %></th>
+              <th><%= t('.access_levels.kind') %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% access_permission_level.access_levels.sort.each do |access_level| %>
+              <tr>
+                <td><%= access_level.name %></td>
+                <td><code><%= access_level.kind %></code></td>
+                <td>
+                <% if access_permission_level.access_level == access_level %>
+                  <button type="button" class="btn btn-success">Selected</button>
+                <% else %>
+                  <%=
+                    link_to(
+                      t('.set'),
+                      user_user_access_path(
+                        user,
+                        user_access,
+                        access_permission_level_id: access_permission_level.id,
+                        access_level_id: access_level.id
+                      ),
+                      class: 'btn btn-outline-success',
+                      format: :turbostream,
+                      data: { turbo: true, 'turbo-method' => :patch }
+                    ) %>
+                <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>

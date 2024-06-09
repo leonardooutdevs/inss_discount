@@ -1,39 +1,36 @@
 # frozen_string_literal: true
 
 class ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :record, :access_permission_level
 
   def initialize(user, record)
     @user = user
     @record = record
+    @access_permission_level = user.access_permission_levels.by(find_class)
   end
 
-  def index?
-    false
-  end
+  def index? = access_permission_level.read?
 
-  def show?
-    false
-  end
+  def show? = access_permission_level.read?
 
-  def create?
-    false
-  end
+  def create? = access_permission_level.write?
 
-  def new?
-    create?
-  end
+  def new? = access_permission_level.write?
 
-  def update?
-    false
-  end
+  def update? = access_permission_level.write?
 
-  def edit?
-    update?
-  end
+  def edit? = access_permission_level.write?
 
-  def destroy?
-    false
+  def destroy? = access_permission_level.admin?
+
+  private
+
+  def find_class
+    if record.respond_to?(:to_sql)
+      record.model.name
+    else
+      record.class.name
+    end
   end
 
   class Scope
@@ -42,12 +39,10 @@ class ApplicationPolicy
       @scope = scope
     end
 
-    def resolve
-      raise NoMethodError, "You must define #resolve in #{self.class}"
-    end
+    def resolve = raise(NoMethodError, "You must define #resolve in #{self.class}")
 
     private
 
-    attr_reader :user, :scope
+    attr_reader :user, :scope, :access_permission_level
   end
 end

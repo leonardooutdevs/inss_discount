@@ -44,11 +44,11 @@ class ProponentsController < ApplicationController
 
   delegate :addresses, :phones, to: :proponent, allow_nil: true
 
+  def scope = policy_scope(Proponent)
+
   def set_proponent
     @proponent = authorize(scope.find(params.require(:id)))
   end
-
-  def scope = policy_scope(Proponent)
 
   def permitted_params
     params.require(:proponent).permit(

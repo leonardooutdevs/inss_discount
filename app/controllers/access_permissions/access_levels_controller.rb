@@ -9,7 +9,7 @@ module AccessPermissions
     end
 
     def destroy
-      access_permission.access_levels.delete(access_level)
+      access_permission.access_levels.destroy(access_level)
       render_turbo
     end
 
@@ -24,19 +24,22 @@ module AccessPermissions
           'update',
           access_permission,
           partial: '/access_permissions/access_permission',
-          locals: { access_permission:, access_levels: AccessLevel.order_by_kind }
+          locals: { access_permission:, access_levels: AccessLevel.all }
         )
       )
     end
 
     def set_access_permission
-      @access_permission = AccessPermission
-                           .includes(:access_levels)
-                           .find(params.require(:access_permission_id))
+      @access_permission =
+        authorize(
+          AccessPermission
+          .includes(:access_levels)
+          .find(params.require(:access_permission_id))
+        )
     end
 
     def set_access_level
-      @access_level = AccessLevel.find(params.require(:id))
+      @access_level = authorize(AccessLevel.find(params.require(:id)))
     end
   end
 end

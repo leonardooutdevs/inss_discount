@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :users
-
   devise_for(
     :users,
     path_names: {
@@ -11,6 +9,11 @@ Rails.application.routes.draw do
     },
     controllers: { sessions: 'users/sessions' }
   )
+
+  resources :users do
+    resources :access_permission_levels, only: :index, controller: 'users/access_permission_levels'
+    resources :user_accesses, only: %i[create update], controller: 'users/user_accesses'
+  end
 
   # Access
   resources :access_permissions do

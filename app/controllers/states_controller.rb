@@ -2,8 +2,9 @@ class StatesController < ApplicationController
   before_action :set_state, only: %i[show edit update]
 
   def index
-    @q = State.eager_load(:country).ransack(params[:q])
+    @q = scope.eager_load(:country).ransack(params[:q])
     @states = q.result(distinct: true).page(params[:page])
+    authorize(states)
   end
 
   def show
@@ -26,8 +27,10 @@ class StatesController < ApplicationController
 
   attr_reader :states, :state, :q
 
+  def scope = policy_scope(State)
+
   def set_state
-    @state = State.find(params.require(:id))
+    @state = authorize(scope.find(params.require(:id)))
   end
 
   def permitted_params

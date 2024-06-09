@@ -3,6 +3,7 @@ class CitiesController < ApplicationController
 
   def index
     @cities = fetch_cities.page(params[:page]).per(params[:per])
+    authorize(cities)
 
     respond_to do |format|
       format.html
@@ -30,13 +31,15 @@ class CitiesController < ApplicationController
 
   attr_reader :cities, :city, :q
 
+  def scope = policy_scope(City)
+
   def fetch_cities
-    @q = City.eager_load(state: :country).ransack(params[:q])
+    @q = scope.eager_load(state: :country).ransack(params[:q])
     q.result(distinct: true)
   end
 
   def set_city
-    @city = City.find(params.require(:id))
+    @city = authorize(scope.find(params.require(:id)))
   end
 
   def permitted_params

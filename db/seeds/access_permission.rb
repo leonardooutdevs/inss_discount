@@ -19,7 +19,7 @@ module Seeds
       end
 
       def create_accesses_levels
-        %w[read write admin superadmin].each do |kind|
+        %w[default read write admin superadmin].each do |kind|
           ::AccessLevel.create(kind:, name: kind)
         end
       end

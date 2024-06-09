@@ -23,6 +23,15 @@
     <%= t('.levels') %>
   </div>
   <div class='col'>
+    <%=
+      link_to(
+        t('new'),
+        new_access_permission_path,
+        class: 'btn btn-sm btn-success',
+        method: :get, format: :turbostream,
+        data: { turbo: true }
+      )
+    %>
   </div>
 </div>
 
