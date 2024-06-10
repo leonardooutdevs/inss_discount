@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_05_205023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_01_144303) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_proponent_addresses_on_address_id"
-    t.index ["proponent_id", "address_id"], name: "index_proponent_addresses_on_proponent_id_and_address_id", unique: true
+    t.index ["proponent_id", "address_id", "kind"], name: "index_proponent_addresses_on_proponent_id_and_details", unique: true
     t.index ["proponent_id"], name: "index_proponent_addresses_on_proponent_id"
   end
 

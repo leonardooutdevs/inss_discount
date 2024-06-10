@@ -1,51 +1,23 @@
-class ProponentsController < ApplicationController
-  before_action :set_proponent, only: %i[show edit update]
-
-  def index
-    @q = Proponent.ransack(params[:q])
-    @proponents = q.result(distinct: true).page(params[:page])
-  end
-
-  def show
-    render(turbo_stream: turbo_stream.send('update', proponent, partial: 'proponent', locals: { proponent: }))
-  end
-
-  def new
-    @proponent = Proponent.new
-    proponent.proponent_addresses.build.build_address
-    proponent.proponent_phones.build.build_phone
-  end
-
-  def edit
-    proponent.proponent_addresses.build.build_address if addresses.blank?
-    proponent.proponent_phones.build.build_phone if phones.blank?
-  end
-
-  def create
-    @proponent = Proponent.new(permitted_params)
-
-    return redirect_to proponents_path, notice: t('.success') if proponent.save
-
-    render(turbo_stream: turbo_stream.send('update', proponent, partial: 'form', locals: { proponent: }))
-  end
-
-  def update
-    if proponent.update(permitted_params)
-      redirect_to edit_proponent_path(proponent), notice: t('.success')
-    else
-      render(turbo_stream: turbo_stream.send('replace', proponent, partial: 'form', locals: { proponent: }))
-    end
-  end
+class ProponentsController < ResourcefulController
+  resourceful(
+    include_nesteds: true,
+    columns: %(
+      proponents.id,
+      proponents.name,
+      document,
+      gross_salary,
+      discount,
+      net_salary,
+      cities.name as city_name,
+      states.uf as state_uf,
+      salaries.salary_range
+    ),
+    scopes: %i[with_state],
+    tables: :salary,
+    decorate: true
+  )
 
   private
-
-  attr_reader :proponents, :proponent, :q
-
-  delegate :addresses, :phones, to: :proponent, allow_nil: true
-
-  def set_proponent
-    @proponent = Proponent.find(params.require(:id))
-  end
 
   def permitted_params
     params.require(:proponent).permit(

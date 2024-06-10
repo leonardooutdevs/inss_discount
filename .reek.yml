@@ -10,7 +10,8 @@ exclude_paths:
 detectors:
   Attribute:
     enabled: true
-    exclude: []
+    exclude:
+      - options
   BooleanParameter:
     enabled: true
     exclude: []
@@ -36,6 +37,7 @@ detectors:
       - up
       - down
       - change
+      - opts
   InstanceVariableAssumption:
     enabled: true
     exclude: []
