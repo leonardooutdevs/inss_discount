@@ -40,7 +40,7 @@ class AccessPermissionsController < ApplicationController
   end
 
   def destroy
-    authorize(access_permission).destroy!
+    access_permission.destroy!
     render turbo_stream: turbo_stream.remove(access_permission)
   end
 

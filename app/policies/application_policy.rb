@@ -30,7 +30,7 @@ class ApplicationPolicy
       record.model.name
     else
       record.class.name
-    end
+    end.remove('Decorator')
   end
 
   class Scope

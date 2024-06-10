@@ -39,7 +39,7 @@ class AccessLevelsController < ApplicationController
   end
 
   def destroy
-    authorize(access_level).destroy!
+    access_level.destroy!
     render turbo_stream: turbo_stream.remove(access_level)
   end
 

@@ -14,7 +14,7 @@ module Resourceful
 
   def search_params = params[:q]
   def permitted_params = raise NotImplemented
-  def resource = controller_name.classify.safe_constantize
+  def resource = policy_scope(controller_name.classify.safe_constantize)
   def instance_variable_name = "@#{variable_name}"
   def variable_name = controller_name.singularize
 
@@ -39,7 +39,7 @@ module Resourceful
   def initialize_instance(attrs = {})
     @instance = instance_variable_set(
       instance_variable_name,
-      resource.new(attrs)
+      authorize(resource.new(attrs))
     )
   end
 
@@ -47,7 +47,7 @@ module Resourceful
     args = yield if block_given?
     args ||= [instance_variable_name, resource.find(params.require(:id))]
 
-    @instance = instance_variable_set(*args)
+    @instance = authorize(instance_variable_set(*args))
   end
 
   def render_turbo(partial)
