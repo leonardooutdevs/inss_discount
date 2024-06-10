@@ -2,7 +2,7 @@ module Resourceful
   module ClassMethods
     ACTIONS = %i[index show new edit create update destroy].freeze
 
-    Options = Struct.new(:acts, :include_nesteds, :columns, :scopes, :tables, :decorate, keyword_init: true) do
+    Options = Struct.new(:acts, :include_nesteds, :columns, :scopes, :tables, :decorate, :turbo, keyword_init: true) do
       def initialize(...)
         super
 
@@ -13,11 +13,11 @@ module Resourceful
 
     attr_accessor :options
 
-    delegate :acts, :include_nesteds, :columns, :scopes, :tables, :decorate, to: :options
+    delegate :acts, :include_nesteds, :columns, :scopes, :tables, :decorate, :turbo, to: :options
 
     def resourceful(opts = {})
       self.options = Options.new(
-        opts.slice(:include_nesteds, :columns, :scopes, :tables, :decorate)
+        opts.slice(:include_nesteds, :columns, :scopes, :tables, :decorate, :turbo)
             .merge(acts: opts[:only].presence || (ACTIONS - (opts[:except].presence || [])))
       )
 

@@ -17,9 +17,10 @@ module Resourceful
     def edit_content(...)
       yield if block_given?
 
+      return render_turbo('form') if turbo
+
       respond_to do |format|
         format.html
-        format.turbo_stream { render_turbo 'form' }
       end
     end
   end

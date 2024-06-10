@@ -1,5 +1,5 @@
 class CitiesController < ResourcefulController
-  resourceful only: %i[index show edit update]
+  resourceful only: %i[index show edit update], turbo: true
 
   def index
     index_resourceful do

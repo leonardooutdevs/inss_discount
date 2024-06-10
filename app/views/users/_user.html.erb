@@ -12,7 +12,7 @@
             url_for([:edit, user]),
             class: 'btn btn-outline-primary',
             method: :get, format: :turbostream,
-            data: { turbo: true } %>
+            data: { turbo: true, 'turbo-method' => :get } %>
         <%= link_to t('accesses'),
             user_access_permission_levels_path(user),
             class: 'btn btn-outline-primary',

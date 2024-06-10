@@ -1,5 +1,5 @@
 class CountriesController < ResourcefulController
-  resourceful only: %i[index show edit update]
+  resourceful only: %i[index show edit update], turbo: true
 
   private
 

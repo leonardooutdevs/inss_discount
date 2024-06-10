@@ -1,5 +1,5 @@
 class SalariesController < ResourcefulController
-  resourceful
+  resourceful turbo: true
 
   private
 

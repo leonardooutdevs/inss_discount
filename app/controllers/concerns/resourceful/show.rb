@@ -16,9 +16,10 @@ module Resourceful
     def show_content(...)
       yield if block_given?
 
+      return render_turbo(variable_name) if turbo
+
       respond_to do |format|
         format.html
-        format.turbo_stream { render_turbo(variable_name) }
       end
     end
 
