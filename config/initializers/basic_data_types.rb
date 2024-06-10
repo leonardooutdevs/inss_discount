@@ -31,3 +31,7 @@ end
 class BigDecimal
   delegate :to_boolean, :to_float, to: :to_f
 end
+
+class Symbol
+  def to_a = [self]
+end

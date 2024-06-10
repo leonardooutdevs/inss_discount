@@ -16,7 +16,7 @@ RSpec.describe 'States' do
 
   describe 'GET /edit' do
     context 'when successful' do
-      subject(:get_edit) { get edit_state_path(state) }
+      subject(:get_edit) { get edit_state_path(state, format: :turbo_stream) }
 
       let(:state) { create(:state) }
 
@@ -27,7 +27,7 @@ RSpec.describe 'States' do
 
   describe 'GET /show' do
     context 'when successful' do
-      subject(:get_show) { get state_path(state) }
+      subject(:get_show) { get state_path(state, format: :turbo_stream) }
 
       let(:state) { create(:state) }
 

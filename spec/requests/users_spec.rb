@@ -16,7 +16,7 @@ RSpec.describe 'Users' do
 
   describe 'GET /edit' do
     context 'when successful' do
-      subject(:get_edit) { get edit_user_path(user) }
+      subject(:get_edit) { get edit_user_path(user, format: :turbo_stream) }
 
       let(:user) { create(:user) }
 
@@ -27,7 +27,7 @@ RSpec.describe 'Users' do
 
   describe 'GET /show' do
     context 'when successful' do
-      subject(:get_show) { get user_path(user) }
+      subject(:get_show) { get user_path(user, format: :turbo_stream) }
 
       let(:user) { create(:user) }
 

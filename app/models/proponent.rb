@@ -1,19 +1,19 @@
 class Proponent < ApplicationRecord
-  paginates_per 5
+  paginates_per 50
 
   belongs_to :salary
 
   has_many :proponent_addresses, dependent: :destroy
   has_many :addresses, through: :proponent_addresses
 
+  has_one :proponent_address, -> { residential }, dependent: :destroy, inverse_of: :proponent
+  has_one :address, through: :proponent_address
+
   has_many :proponent_phones, dependent: :destroy
   has_many :phones, through: :proponent_phones
 
   accepts_nested_attributes_for :proponent_addresses, allow_destroy: true
-  accepts_nested_attributes_for :addresses, allow_destroy: true
-
   accepts_nested_attributes_for :proponent_phones, allow_destroy: true
-  accepts_nested_attributes_for :phones, allow_destroy: true
 
   validates(
     :name,
@@ -32,10 +32,13 @@ class Proponent < ApplicationRecord
     self.salary = Salary.find_by('min_amount <= ? AND max_amount >= ?', gross_salary, gross_salary)
   }
 
+  scope :with_salary, -> { joins(:salary) }
+  scope :with_state, -> { joins({ address: { city: :state } }) }
+
   def calculate_discount = Discount.call(self)
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[name document]
+    %w[name document gross_salary]
   end
 
   def self.ransackable_associations(_auth_object = nil)

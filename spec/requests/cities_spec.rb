@@ -28,7 +28,7 @@ RSpec.describe 'Cities' do
 
   describe 'GET /edit' do
     context 'when successful' do
-      subject(:get_edit) { get edit_city_path(city) }
+      subject(:get_edit) { get edit_city_path(city, format: :turbo_stream) }
 
       let(:city) { create(:city) }
 
@@ -39,7 +39,7 @@ RSpec.describe 'Cities' do
 
   describe 'GET /show' do
     context 'when successful' do
-      subject(:get_show) { get city_path(city) }
+      subject(:get_show) { get city_path(city, format: :turbo_stream) }
 
       let(:city) { create(:city) }
 

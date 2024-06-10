@@ -6,11 +6,38 @@ RSpec.describe 'Proponents' do
   describe 'GET /index' do
     subject(:get_index) { get('/proponents', params:) }
 
-    let(:params) { {} }
-
-    context 'when successful' do
+    shared_examples 'successful behaviour' do
       it_behaves_like 'a request'
       it { get_index and expect(response).to render_template :index }
+    end
+
+    context 'when search by name' do
+      let(:params) { { name_cont: proponent.name } }
+
+      let(:proponent) { create(:proponent) }
+
+      it_behaves_like 'successful behaviour'
+      it { get_index and expect(response.body).to include(proponent.name) }
+    end
+
+    context 'when search by state' do
+      let(:params) { { addresses_state_name_cont: proponent.address.state.name } }
+
+      let(:proponent) { create(:proponent) }
+
+      it_behaves_like 'successful behaviour'
+      it { get_index and expect(response.body).to include(proponent.address.state.name) }
+    end
+  end
+
+  describe 'GET /show' do
+    context 'when successful' do
+      subject(:get_show) { get proponent_path(proponent, format: :turbo_stream) }
+
+      let(:proponent) { create(:proponent) }
+
+      it_behaves_like 'a request'
+      it { get_show and expect(response).to render_template :_proponent }
     end
   end
 
@@ -34,22 +61,11 @@ RSpec.describe 'Proponents' do
     end
   end
 
-  describe 'GET /show' do
-    context 'when successful' do
-      subject(:get_show) { get proponent_path(proponent) }
-
-      let(:proponent) { create(:proponent) }
-
-      it_behaves_like 'a request'
-      it { get_show and expect(response).to render_template :_proponent }
-    end
-  end
-
   describe 'PATCH /update' do
     subject(:patch_update) { patch proponent_path(proponent), params: }
 
     let(:proponent) { create(:proponent) }
-    let(:params) { { proponent: attributes_for(:proponent), format: :turbo_stream } }
+    let(:params) { { proponent: attributes_for(:proponent) } }
 
     it_behaves_like 'a request', :found
     it { expect { patch_update and proponent.reload }.to change(proponent, :attributes) }
@@ -65,7 +81,7 @@ RSpec.describe 'Proponents' do
   describe 'POST /create' do
     subject(:post_create) { post proponents_path, params: }
 
-    let(:params) { { proponent: proponent_attributes, format: :turbo_stream } }
+    let(:params) { { proponent: proponent_attributes } }
 
     let(:proponent_attributes) do
       attributes_for(

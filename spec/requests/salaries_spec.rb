@@ -16,7 +16,7 @@ RSpec.describe 'Salaries' do
 
   describe 'GET /edit' do
     context 'when successful' do
-      subject(:get_edit) { get edit_salary_path(salary) }
+      subject(:get_edit) { get edit_salary_path(salary, format: :turbo_stream) }
 
       let(:salary) { create(:salary) }
 
@@ -27,7 +27,7 @@ RSpec.describe 'Salaries' do
 
   describe 'GET /show' do
     context 'when successful' do
-      subject(:get_show) { get salary_path(salary) }
+      subject(:get_show) { get salary_path(salary, format: :turbo_stream) }
 
       let(:salary) { create(:salary) }
 
@@ -51,5 +51,15 @@ RSpec.describe 'Salaries' do
       it_behaves_like 'a request'
       it { expect { patch_update and salary.reload }.not_to change(salary, :attributes) }
     end
+  end
+
+  describe 'delete /destroy' do
+    subject(:delete_destroy) { delete salary_path(salary), params: }
+
+    let(:salary) { create(:salary) }
+    let(:params) { {} }
+
+    it_behaves_like 'a request', :found
+    it { salary and expect { delete_destroy }.to change(Salary, :count) }
   end
 end

@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_06_202112) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_proponent_addresses_on_address_id"
-    t.index ["proponent_id", "address_id"], name: "index_proponent_addresses_on_proponent_id_and_address_id", unique: true
+    t.index ["proponent_id", "address_id", "kind"], name: "index_proponent_addresses_on_proponent_id_and_details", unique: true
     t.index ["proponent_id"], name: "index_proponent_addresses_on_proponent_id"
   end
 
