@@ -1,3 +1,11 @@
+KINDS = {
+  'default' => 0,
+  'read' => 1,
+  'write' => 2,
+  'admin' => 3,
+  'superadmin' => 4
+}.freeze
+
 shared_examples 'a request' do |kind|
   it { subject and expect(response).to have_http_status kind.presence || :success }
   it { expect { subject }.not_to raise_exception }
@@ -11,40 +19,15 @@ shared_examples 'a unauthorized request' do
   end
 end
 
-shared_context 'with authorization', shared_context: :metadata do |action_name|
-  context 'when superadmin' do
-    let(:user) { create(:user) }
+shared_context 'with authorization', shared_context: :metadata do |permission_level_necessary|
+  %w[superadmin admin write read default].each do |access_level_kind|
+    context "when #{access_level_kind}" do
+      let(:user) { create(:user, access_level_kind:) }
 
-    it_behaves_like 'a request'
-  end
+      status = KINDS[access_level_kind] >= KINDS[permission_level_necessary] ? :ok : :found
 
-  context 'when admin' do
-    let(:user) { create(:user, access_level_kind: 'admin') }
-
-    it_behaves_like 'a request'
-  end
-
-  context 'when write' do
-    let(:user) { create(:user, access_level_kind: 'write') }
-
-    kind = action_name == 'destroy' ? :found : :ok
-
-    it_behaves_like 'a request', kind
-  end
-
-  context 'when read' do
-    let(:user) { create(:user, access_level_kind: 'read') }
-
-    kind = %w[index show].include?(action_name) ? :ok : :found
-
-    it_behaves_like 'a request', kind
-    it_behaves_like('a unauthorized request') if kind == :found
-  end
-
-  context 'when default' do
-    let(:user) { create(:user, access_level_kind: 'default') }
-
-    it_behaves_like 'a request', :found
-    it_behaves_like 'a unauthorized request'
+      it_behaves_like 'a request', status
+      it_behaves_like('a unauthorized request') if status == :found
+    end
   end
 end

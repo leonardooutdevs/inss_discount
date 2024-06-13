@@ -10,7 +10,7 @@ RSpec.describe 'AccessPermissions' do
 
     let(:params) { {} }
 
-    include_context 'with authorization', 'index'
+    include_context 'with authorization', 'superadmin'
     it { get_index and expect(response).to render_template :index }
   end
 
@@ -20,7 +20,7 @@ RSpec.describe 'AccessPermissions' do
 
       let(:access_permission) { create(:access_permission) }
 
-      include_context 'with authorization', 'show'
+    include_context 'with authorization', 'superadmin'
       it { get_show and expect(response).to render_template :_access_permission }
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe 'AccessPermissions' do
     context 'when successful' do
       subject(:get_new) { get new_access_permission_path }
 
-      include_context 'with authorization', 'new'
+    include_context 'with authorization', 'superadmin'
       it { get_new and expect(response).to render_template :_form }
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe 'AccessPermissions' do
         create(:access_permission)
       end
 
-      include_context 'with authorization', 'edit'
+    include_context 'with authorization', 'superadmin'
       it { get_edit and expect(response).to render_template :_form }
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe 'AccessPermissions' do
 
     before { AccessPermission.find_by(name: 'ProponentAddress').destroy }
 
-    include_context 'with authorization', 'create'
+    include_context 'with authorization', 'superadmin'
     it { expect { post_create }.to change(AccessPermission, :count).by(1) }
 
     context 'when validation fails' do
@@ -72,7 +72,7 @@ RSpec.describe 'AccessPermissions' do
     let(:access_permission) { create(:access_permission) }
     let(:params) { { access_permission: { name: 'Canada' }, format: :turbo_stream } }
 
-    include_context 'with authorization', 'update'
+    include_context 'with authorization', 'superadmin'
     it { expect { patch_update and access_permission.reload }.to change(access_permission, :attributes) }
 
     context 'when validation fails' do
@@ -88,7 +88,7 @@ RSpec.describe 'AccessPermissions' do
 
     let(:access_permission) { create(:access_permission) }
 
-    include_context 'with authorization', 'destroy'
+    include_context 'with authorization', 'superadmin'
     it { access_permission and expect { delete_destroy }.to change(AccessPermission, :count) }
 
     it do

@@ -10,7 +10,7 @@ RSpec.describe 'AccessLevels' do
 
     let(:params) { {} }
 
-    include_context 'with authorization', 'index'
+    include_context 'with authorization', 'superadmin'
     it { get_index and expect(response).to render_template :index }
   end
 
@@ -20,7 +20,7 @@ RSpec.describe 'AccessLevels' do
 
       let(:access_level) { create(:access_level) }
 
-      include_context 'with authorization', 'show'
+      include_context 'with authorization', 'superadmin'
       it { get_show and expect(response).to render_template :_access_level }
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe 'AccessLevels' do
     context 'when successful' do
       subject(:get_new) { get new_access_level_path }
 
-      include_context 'with authorization', 'new'
+      include_context 'with authorization', 'superadmin'
       it { get_new and expect(response).to render_template :_form }
     end
   end
@@ -40,7 +40,7 @@ RSpec.describe 'AccessLevels' do
 
       let(:access_level) { create(:access_level) }
 
-      include_context 'with authorization', 'edit'
+      include_context 'with authorization', 'superadmin'
       it { get_edit and expect(response).to render_template :_form }
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe 'AccessLevels' do
     let(:params) { { access_level: access_level_attributes, format: :turbo_stream } }
     let(:access_level_attributes) { { name: 'name', kind: 'kind' } }
 
-    include_context 'with authorization', 'create'
+    include_context 'with authorization', 'superadmin'
 
     it { expect { post_create }.to change(AccessLevel, :count).by(1) }
 
@@ -69,7 +69,7 @@ RSpec.describe 'AccessLevels' do
     let(:access_level) { create(:access_level) }
     let(:params) { { access_level: { name: 'Canada' }, format: :turbo_stream } }
 
-    include_context 'with authorization', 'update'
+    include_context 'with authorization', 'superadmin'
     it { expect { patch_update and access_level.reload }.to change(access_level, :attributes) }
 
     context 'when validation fails' do
@@ -85,7 +85,7 @@ RSpec.describe 'AccessLevels' do
 
     let(:access_level) { create(:access_level) }
 
-    include_context 'with authorization', 'destroy'
+    include_context 'with authorization', 'superadmin'
     it { access_level and expect { delete_destroy }.to change(AccessLevel, :count) }
 
     it do
