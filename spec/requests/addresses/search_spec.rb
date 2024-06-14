@@ -13,11 +13,11 @@ RSpec.describe 'Proponents::Reports' do
 
     let(:expected_response) do
       {
-        'city_id' => a_kind_of(String),
+        'city_id' => a_kind_of(Integer),
         'city' => a_kind_of(String),
-        'state_id' => a_kind_of(String),
+        'state_id' => a_kind_of(Integer),
         'state' => a_kind_of(String),
-        'country_id' => a_kind_of(String),
+        'country_id' => a_kind_of(Integer),
         'neighborhood' => a_kind_of(String),
         'address' => a_kind_of(String),
         'complement' => a_kind_of(String)

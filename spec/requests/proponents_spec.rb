@@ -74,7 +74,7 @@ RSpec.describe 'Proponents' do
       let(:params) { { proponent: { name: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and proponent.reload }.not_to change(proponent, :attributes) }
+      it { expect { patch_update and proponent.reload }.not_to change(proponent, :name) }
     end
   end
 

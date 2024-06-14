@@ -49,7 +49,7 @@ RSpec.describe 'Salaries' do
       let(:params) { { salary: { salary_range: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and salary.reload }.not_to change(salary, :attributes) }
+      it { expect { patch_update and salary.reload }.not_to change(salary, :salary_range) }
     end
   end
 

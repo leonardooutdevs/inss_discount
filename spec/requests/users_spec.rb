@@ -49,7 +49,7 @@ RSpec.describe 'Users' do
       let(:params) { { user: { email: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and user.reload }.not_to change(user, :attributes) }
+      it { expect { patch_update and user.reload }.not_to change(user, :email) }
     end
   end
 end

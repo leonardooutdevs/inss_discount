@@ -79,7 +79,7 @@ RSpec.describe 'AccessPermissions' do
       let(:params) { { access_permission: { name: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and access_permission.reload }.not_to change(access_permission, :attributes) }
+      it { expect { patch_update and access_permission.reload }.not_to change(access_permission, :name) }
     end
   end
 

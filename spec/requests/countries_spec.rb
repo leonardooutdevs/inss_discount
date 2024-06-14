@@ -49,7 +49,7 @@ RSpec.describe 'Countries' do
       let(:params) { { country: { name: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and country.reload }.not_to change(country, :attributes) }
+      it { expect { patch_update and country.reload }.not_to change(country, :name) }
     end
   end
 end

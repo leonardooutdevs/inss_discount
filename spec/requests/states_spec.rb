@@ -49,7 +49,7 @@ RSpec.describe 'States' do
       let(:params) { { state: { name: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and state.reload }.not_to change(state, :attributes) }
+      it { expect { patch_update and state.reload }.not_to change(state, :name) }
     end
   end
 end

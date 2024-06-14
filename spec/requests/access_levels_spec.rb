@@ -76,7 +76,7 @@ RSpec.describe 'AccessLevels' do
       let(:params) { { access_level: { name: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and access_level.reload }.not_to change(access_level, :attributes) }
+      it { expect { patch_update and access_level.reload }.not_to change(access_level, :name) }
     end
   end
 

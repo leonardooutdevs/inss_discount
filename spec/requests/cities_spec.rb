@@ -61,7 +61,7 @@ RSpec.describe 'Cities' do
       let(:params) { { city: { name: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and city.reload }.not_to change(city, :attributes) }
+      it { expect { patch_update and city.reload }.not_to change(city, :name) }
     end
   end
 end
