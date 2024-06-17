@@ -10,9 +10,8 @@ RSpec.describe 'Users::AccessPermissionLevels' do
 
     let(:params) { {} }
 
-    context 'when successful' do
-      it_behaves_like 'a request'
-      it { get_index and expect(response).to render_template :index }
-    end
+    include_context('with authorization', 'superadmin')
+
+    it { get_index and expect(response).to render_template :index }
   end
 end

@@ -6,17 +6,17 @@ module Resourceful
     delegate_missing_to :class, allow_nil: true
 
     before_action :set_readers
-    before_action :set_scope
+
+    include Scope
+    include Nested
   end
 
   private
 
-  attr_reader :instance, :scope_instance
+  attr_reader :instance
 
   def search_params = params[:q]
   def permitted_params = raise NotImplemented
-  def scope_resource = scope.to_s.classify.safe_constantize
-  def scope_id = params["#{scope}_id".to_sym].to_i
   def instance_variable_name = "@#{variable_name}"
   def variable_name = controller_name.singularize
   def locals = { variable_name => instance }.with_indifferent_access
@@ -47,17 +47,6 @@ module Resourceful
     end
   end
 
-  def set_scope
-    return if scope.blank?
-
-    scope_name = scope
-    class_eval do
-      attr_reader(scope_name)
-    end
-
-    @scope_instance = instance_variable_set("@#{scope}", scope_resource.find(scope_id))
-  end
-
   def initialize_instance(attrs = {})
     @instance = instance_variable_set(
       instance_variable_name,
@@ -82,30 +71,5 @@ module Resourceful
         locals:
       )
     )
-  end
-
-  def build_nesteds(...)
-    nesteds = yield if block_given?
-    nesteds ||= resource.nested_attributes_options.keys
-
-    nesteds.each do |association|
-      next if instance.send(association).present?
-
-      build_nested_associations(association)
-    end
-  end
-
-  def build_nested_associations(nested, instance_obj = nil)
-    instance_obj ||= instance
-
-    association = instance_obj.send(nested)
-
-    return instance_obj.send("build_#{nested}") unless association
-
-    association_built = association.build
-
-    association_built.nested_attributes_options.each_key do |built_nested|
-      build_nested_associations(built_nested, association_built)
-    end
   end
 end
