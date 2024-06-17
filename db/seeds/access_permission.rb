@@ -28,6 +28,7 @@ module Seeds
         ::AccessPermission.all.each do |access_permission|
           ::AccessLevel.all.each do |access_level|
             access_permission.access_levels << access_level
+            puts "=== Associated permission to level #{access_permission.model} -> #{access_level.kind}"
           end
         end
       end
