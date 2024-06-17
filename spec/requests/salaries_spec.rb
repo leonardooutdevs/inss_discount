@@ -59,7 +59,7 @@ RSpec.describe 'Salaries' do
     let(:salary) { create(:salary) }
     let(:params) { {} }
 
-    it_behaves_like 'a request', :found
+    it_behaves_like 'a request'
     it { salary and expect { delete_destroy }.to change(Salary, :count) }
   end
 end

@@ -19,8 +19,4 @@ class User < ApplicationRecord
   def self.ransackable_attributes(_auth_object = nil)
     %w[email]
   end
-
-  def pending_permissions
-    AccessPermission.all - access_permissions
-  end
 end

@@ -1,5 +1,6 @@
 class AccessPermissionsController < ResourcefulController
-  resourceful turbo: true
+  resourceful turbo: true,
+              decorate: true
 
   before_action :set_access_levels
 

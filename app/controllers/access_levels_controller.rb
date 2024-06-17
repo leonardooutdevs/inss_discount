@@ -1,5 +1,6 @@
 class AccessLevelsController < ResourcefulController
-  resourceful turbo: true
+  resourceful turbo: true,
+              decorate: true
 
   private
 

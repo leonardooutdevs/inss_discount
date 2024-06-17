@@ -5,6 +5,7 @@ module Users
       turbo: true,
       scope: :user,
       scopes: :with_access_permission,
+      decorate: true,
       columns: %(
       access_permission_levels.*
       , access_permissions.name
