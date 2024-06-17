@@ -6,22 +6,32 @@ module Resourceful
     delegate_missing_to :class, allow_nil: true
 
     before_action :set_readers
+    before_action :set_scope
   end
 
   private
 
-  attr_reader :instance
+  attr_reader :instance, :scope_instance
 
   def search_params = params[:q]
   def permitted_params = raise NotImplemented
-  def resource = policy_scope(controller_name.classify.safe_constantize)
+  def scope_resource = scope.to_s.classify.safe_constantize
+  def scope_id = params["#{scope}_id".to_sym].to_i
   def instance_variable_name = "@#{variable_name}"
   def variable_name = controller_name.singularize
   def locals = { variable_name => instance }.with_indifferent_access
 
+  def resource
+    if scope
+      scope_instance.public_send(controller_name)
+    else
+      policy_scope(controller_name.classify.safe_constantize)
+    end
+  end
+
   def scoped_resource
     scopes
-      .reduce(resource) { |resource, scope| resource.public_send(scope) }
+      .reduce(resource) { |resource, scope_method| resource.public_send(scope_method) }
       .select(columns)
       .joins(tables)
   end
@@ -35,6 +45,17 @@ module Resourceful
 
       delegate_missing_to controller_singular.to_sym, allow_nil: true
     end
+  end
+
+  def set_scope
+    return if scope.blank?
+
+    scope_name = scope
+    class_eval do
+      attr_reader(scope_name)
+    end
+
+    @scope_instance = instance_variable_set("@#{scope}", scope_resource.find(scope_id))
   end
 
   def initialize_instance(attrs = {})

@@ -30,7 +30,7 @@ module Resourceful
     end
 
     def set_index_resource
-      collection = q.result(distinct: true).page(params[:page]).per(params[:per])
+      collection = q.result(distinct: true).order(order).page(params[:page]).per(params[:per])
       authorize(collection)
 
       instance_variable_set(
