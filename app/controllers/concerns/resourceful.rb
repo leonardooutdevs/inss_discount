@@ -17,6 +17,7 @@ module Resourceful
   def resource = policy_scope(controller_name.classify.safe_constantize)
   def instance_variable_name = "@#{variable_name}"
   def variable_name = controller_name.singularize
+  def locals = { variable_name => instance }.with_indifferent_access
 
   def scoped_resource
     scopes
@@ -50,14 +51,14 @@ module Resourceful
     @instance = authorize(instance_variable_set(*args))
   end
 
-  def render_turbo(partial)
+  def render_turbo(partial, action = 'update', target = instance)
     render(
       turbo_stream: turbo_stream
       .send(
-        'update',
-        instance,
+        action,
+        target,
         partial:,
-        locals: { variable_name => instance }.with_indifferent_access
+        locals:
       )
     )
   end

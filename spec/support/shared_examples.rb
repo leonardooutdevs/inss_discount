@@ -19,15 +19,17 @@ shared_examples 'a unauthorized request' do
   end
 end
 
-shared_context 'with authorization', shared_context: :metadata do |permission_level_necessary|
+shared_context 'with authorization', shared_context: :metadata do |data|
+  permission_level_necessary, status_code = *data
+
   %w[superadmin admin write read default].each do |access_level_kind|
     context "when #{access_level_kind}" do
       let(:user) { create(:user, access_level_kind:) }
 
-      status = KINDS[access_level_kind] >= KINDS[permission_level_necessary] ? :ok : :found
+      status = KINDS[access_level_kind] >= KINDS[permission_level_necessary] ? (status_code.presence || :ok) : 303
 
-      it_behaves_like 'a request', status
-      it_behaves_like('a unauthorized request') if status == :found
+      it_behaves_like('a request', status)
+      it_behaves_like('a unauthorized request') if status == 303
     end
   end
 end

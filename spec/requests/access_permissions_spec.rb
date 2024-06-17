@@ -88,7 +88,8 @@ RSpec.describe 'AccessPermissions' do
 
     let(:access_permission) { create(:access_permission) }
 
-    include_context 'with authorization', 'superadmin'
+    include_context('with authorization', 'superadmin')
+
     it { access_permission and expect { delete_destroy }.to change(AccessPermission, :count) }
 
     it do

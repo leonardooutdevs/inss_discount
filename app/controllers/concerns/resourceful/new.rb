@@ -17,7 +17,7 @@ module Resourceful
     def new_content(...)
       yield if block_given?
 
-      return render_turbo('form') if turbo
+      return render_turbo('form', 'prepend', controller_name) if turbo
 
       respond_to do |format|
         format.html
