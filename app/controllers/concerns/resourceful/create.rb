@@ -17,6 +17,8 @@ module Resourceful
       if instance.save
         yield if block_given?
 
+        return render_turbo(variable_name, 'update', resource.new) if turbo
+
         respond_to do |format|
           format.html { redirect_to url_for([controller_name.to_sym]), notice: t('.success') }
         end

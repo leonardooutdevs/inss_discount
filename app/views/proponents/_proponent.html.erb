@@ -1,7 +1,14 @@
 <%= turbo_frame_tag dom_id(proponent) do  %>
   <div class='row'>
     <div class='col'>
-      <%= proponent.name %>
+      <%=
+        link_to(
+          proponent.name,
+          proponent_path(proponent),
+          method: :get, format: :turbostream,
+          data: { turbo: false }
+        )
+        %>
     </div>
     <div class='col'>
       <%= proponent.document %>

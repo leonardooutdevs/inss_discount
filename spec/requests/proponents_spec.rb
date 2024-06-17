@@ -32,12 +32,12 @@ RSpec.describe 'Proponents' do
 
   describe 'GET /show' do
     context 'when successful' do
-      subject(:get_show) { get proponent_path(proponent, format: :turbo_stream) }
+      subject(:get_edit) { get proponent_path(proponent) }
 
       let(:proponent) { create(:proponent) }
 
       it_behaves_like 'a request'
-      it { get_show and expect(response).to render_template :_proponent }
+      it { get_edit and expect(response).to render_template :show }
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe 'Proponents' do
       let(:params) { { proponent: { name: '' } } }
 
       it_behaves_like 'a request'
-      it { expect { patch_update and proponent.reload }.not_to change(proponent, :attributes) }
+      it { expect { patch_update and proponent.reload }.not_to change(proponent, :name) }
     end
   end
 

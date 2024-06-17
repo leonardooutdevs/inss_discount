@@ -17,15 +17,14 @@ module Resourceful
       if instance.update(permitted_params)
         yield if block_given?
 
+        return render_turbo(variable_name) if turbo
+
         respond_to do |format|
           format.html { redirect_to url_for([:edit, instance]), notice: t('.success') }
-          format.turbo_stream { turbo_response }
         end
       else
-        turbo_response
+        render_turbo('form')
       end
     end
-
-    def turbo_response = render_turbo('form')
   end
 end

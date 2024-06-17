@@ -1,0 +1,29 @@
+en:
+  access_levels:
+    index:
+      title: Access Levels
+      name: Name
+      kind: Kind
+    show:
+      title: Access Levels
+      name: Name
+      kind: Kind
+    new:
+      title: Access Levels
+    edit:
+      title: Access Levels
+    create:
+      title: Access Levels
+    update:
+      title: Access Levels
+    destroy:
+      title: Access Levels
+    form:
+      name: Name
+      kind: Kind
+  layouts:
+    application:
+      access_levels:
+        title: Access Levels
+        index: Access Levels
+        new: Cadastrar

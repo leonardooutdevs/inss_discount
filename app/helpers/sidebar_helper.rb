@@ -1,18 +1,20 @@
 module SidebarHelper
   def links
     [
-      menus,
+      admins,
       proponents,
       address
     ]
   end
 
-  def menus
+  def admins
     {
-      id: 'menus',
+      id: 'admins',
       name: t('.users.title'),
       items: [
-        { name: t('.users.index'), path: url_for([:users]) }
+        { name: t('.users.index'), path: url_for([:users]) },
+        { name: t('.access_permissions.index'), path: url_for([:access_permissions]) },
+        { name: t('.access_levels.index'), path: url_for([:access_levels]) }
       ]
     }
   end

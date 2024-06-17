@@ -3,5 +3,5 @@ en:
     application:
       users:
         title: Admins
-        index: Lista
+        index: Users
         new: Cadastrar

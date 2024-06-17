@@ -10,9 +10,16 @@ Rails.application.routes.draw do
     controllers: { sessions: 'users/sessions' }
   )
 
-  resources :users
+  resources :users do
+    resources :access_permission_levels, only: :index, controller: 'users/access_permission_levels'
+    resources :user_accesses, only: %i[create update], controller: 'users/user_accesses'
+  end
 
-  get 'addresses/search', controller: 'addresses/search', action: :index
+  # Access
+  resources :access_permissions do
+    resources :access_levels, only: %i[create destroy], controller: 'access_permissions/access_levels'
+  end
+  resources :access_levels
 
   resources :proponents do
     collection do
@@ -24,6 +31,7 @@ Rails.application.routes.draw do
   resources :salaries
 
   # Address
+  get 'addresses/search', controller: 'addresses/search', action: :index
   resources :countries
   resources :states
   resources :cities

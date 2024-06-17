@@ -8,4 +8,5 @@ en:
   sign_in: Sign In
   cancel: Cancel
   destroy_confirmation: Are you sure?
+  user_not_authorized: "You are not authorized"
 

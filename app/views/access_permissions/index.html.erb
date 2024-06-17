@@ -1,0 +1,44 @@
+<%= t('.title') %>
+
+<%= search_form_for [@q], class: 'row', data: { 'turbo-stream' => true } do |f| %>
+  <div class="col-auto">
+    <%= f.label :name_or_model_cont, t('.name'), class: 'visually-hidden' %>
+    <%= f.search_field :name_or_model_cont, class: 'form-control'  %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit t('search'), class: 'btn btn-primary mb-3' %>
+  </div>
+<% end %>
+
+<br>
+
+<div class='row'>
+  <div class='col'>
+    <%= sort_link @q, :name, t('.name'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+    <%= sort_link @q, :model, t('.model'), class: 'btn btn-sm btn-outline-secondary' %>
+  </div>
+  <div class='col'>
+    <%= t('.levels') %>
+  </div>
+  <div class='col'>
+    <%=
+      link_to(
+        t('new'),
+        new_access_permission_path,
+        class: 'btn btn-sm btn-success',
+        method: :get, format: :turbostream,
+        data: { turbo: true }
+      )
+    %>
+  </div>
+</div>
+
+<hr class='col'>
+
+<%= turbo_stream_from 'access_permissions' %>
+<%= turbo_frame_tag 'access_permissions', class: 'list-striped' do %>
+  <%= render @access_permissions, access_levels: @access_levels %>
+  <%= paginate @access_permissions, theme: 'bootstrap-5' %>
+<% end %>

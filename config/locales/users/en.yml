@@ -8,4 +8,22 @@ en:
       email: E-mail
       password: Password
       password_confirmation: Password Confirmation
-
+    access_permission_levels:
+      index:
+        title: Accesses
+        name: Accesses
+        model: Model
+        access_permissions:
+          name: Name
+      access_permission:
+        name: Name
+        set: Set
+        access_levels:
+          name: Name
+          kind: Kind
+        access_permissions:
+          name: Name
+          set: Set
+          access_levels:
+            name: Name
+            kind: Kind

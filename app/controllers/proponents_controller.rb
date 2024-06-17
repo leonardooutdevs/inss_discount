@@ -1,5 +1,6 @@
 class ProponentsController < ResourcefulController
   resourceful(
+    except: %i[destroy],
     include_nesteds: true,
     columns: %(
       proponents.id,

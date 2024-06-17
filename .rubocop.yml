@@ -67,3 +67,7 @@ RSpec/AnyInstance:
 Layout/EmptyLinesAroundBlockBody:
   Exclude:
     - db/**/*.rb
+
+RSpec/NamedSubject:
+  Exclude:
+    - spec/support/shared_examples.rb

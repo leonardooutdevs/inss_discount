@@ -7,12 +7,16 @@
       <%= l user.updated_at, format: :short %>
     </div>
     <div class='col'>
-      <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+      <div class="btn-group btn-group-sm" role="group">
         <%= link_to t('edit'),
             url_for([:edit, user]),
-            class: 'btn btn btn-outline-primary',
+            class: 'btn btn-outline-primary',
             method: :get, format: :turbostream,
-            data: { turbo: true } %>
+            data: { turbo: true, 'turbo-method' => :get } %>
+        <%= link_to t('accesses'),
+            user_access_permission_levels_path(user),
+            class: 'btn btn-outline-primary',
+            data: { turbo: false } %>
       </div>
     </div>
   </div>

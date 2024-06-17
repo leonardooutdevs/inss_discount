@@ -1,0 +1,2 @@
+class AccessPermissionLevelDecorator < ApplicationDecorator
+end

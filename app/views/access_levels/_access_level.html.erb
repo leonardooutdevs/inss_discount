@@ -1,0 +1,26 @@
+<%= turbo_frame_tag dom_id(access_level) do  %>
+  <div class='row'>
+    <div class='col'>
+      <%= access_level.name %>
+    </div>
+    <div class='col blue-text'>
+      <code>
+        <%= access_level.kind %>
+      </code>
+    </div>
+    <div class='col'>
+      <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+        <%= link_to t('edit'),
+            url_for([:edit, access_level]),
+            class: 'btn btn btn-outline-primary',
+            method: :get, format: :turbostream,
+            data: { turbo: true } %>
+        <%= link_to t('delete'),
+            access_level_path(access_level),
+            class: 'btn btn btn-outline-danger',
+            method: :delete, format: :turbostream,
+            data: { turbo: true, 'turbo-method' => :delete } %>
+      </div>
+    </div>
+  </div>
+<% end %>
